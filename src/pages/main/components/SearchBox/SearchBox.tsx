@@ -1,6 +1,8 @@
 import { Component } from 'react';
+import SearchApiPath from './components/SearchApiPath/SearchApiPath';
 import SearchButton from './components/SearchButton/SearchButton';
 import SearchInput from './components/SearchInput/SearchInput';
+import './SearchBox.css';
 
 interface SearchBoxProps {
   placeholder?: string;
@@ -33,7 +35,8 @@ class SearchBox extends Component<SearchBoxProps, SearchBoxState> {
 
   render() {
     return (
-      <div>
+      <div className="search-box-container">
+        <SearchApiPath />
         <SearchInput
           onChange={this.handleChange}
           placeholder={this.props.placeholder || 'Search...'}
