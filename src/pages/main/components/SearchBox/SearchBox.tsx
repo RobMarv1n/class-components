@@ -6,8 +6,8 @@ import './SearchBox.css';
 
 interface SearchBoxProps {
   placeholder?: string;
+  onSearch: (query: string) => void;
 }
-
 interface SearchBoxState {
   query: string;
 }
@@ -24,13 +24,8 @@ class SearchBox extends Component<SearchBoxProps, SearchBoxState> {
     this.setState({ query: event.target.value });
   };
 
-  handleSearch = async () => {
-    const response = await fetch(
-      `https://pokeapi.co/api/v2/${this.state.query}`
-    );
-    const data = await response.json();
-    console.log(data);
-    return data;
+  handleClick = () => {
+    this.props.onSearch(this.state.query);
   };
 
   render() {
@@ -41,7 +36,7 @@ class SearchBox extends Component<SearchBoxProps, SearchBoxState> {
           onChange={this.handleChange}
           placeholder={this.props.placeholder || 'Search...'}
         />
-        <SearchButton onClick={this.handleSearch} />
+        <SearchButton onClick={this.handleClick} />
       </div>
     );
   }
