@@ -28,9 +28,7 @@ class MainPage extends Component<object, MainPageState> {
   }
 
   componentDidMount() {
-    if (this.state.lastQuery) {
-      this.handleSearch(this.state.lastQuery);
-    }
+    this.handleSearch(this.state.lastQuery);
   }
 
   handleSearch = async (query: string) => {
