@@ -9,8 +9,8 @@ import SearchBox from './components/SearchBox/SearchBox';
 export interface MainPageState {
   result: AllPokemonsData | SinglePokemon | null;
   error: string | null;
-  loading: boolean;
-  crash: boolean;
+  isLoading: boolean;
+  isCrashing: boolean;
 }
 class MainPage extends Component<object, MainPageState> {
   constructor(props: object) {
@@ -18,13 +18,13 @@ class MainPage extends Component<object, MainPageState> {
     this.state = {
       result: null,
       error: null,
-      loading: false,
-      crash: false,
+      isLoading: false,
+      isCrashing: false,
     };
   }
 
   handleSearch = async (query: string) => {
-    this.setState({ error: null, loading: true });
+    this.setState({ error: null, isLoading: true });
     try {
       const response = await fetch(`${START_SEARCH_ENDPOINT}${query}`);
 
@@ -35,7 +35,7 @@ class MainPage extends Component<object, MainPageState> {
       const data = await response.json();
 
       if (data) {
-        this.setState({ result: data, loading: false });
+        this.setState({ result: data, isLoading: false });
       }
     } catch (error: unknown) {
       let message = 'Unknown error occurred';
@@ -44,29 +44,27 @@ class MainPage extends Component<object, MainPageState> {
         message = error.message;
       }
 
-      this.setState({ result: null, error: message, loading: false });
+      this.setState({ result: null, error: message, isLoading: false });
     }
   };
 
   triggerCrash = () => {
-    this.setState({ crash: true });
+    this.setState({ isCrashing: true });
   };
 
   render() {
-    const { result, error, loading, crash } = this.state;
+    const { result, error, isLoading, isCrashing } = this.state;
 
-    if (crash) {
+    if (isCrashing) {
       throw new Error('Test crash from MainPage');
     }
 
     return (
       <section className="main-page">
         <SearchBox onSearch={this.handleSearch} />
-        {loading && <Spinner />}
-        {!loading && <ResultsTable data={result} error={error} />}
-        <button onClick={this.triggerCrash} style={{ marginBottom: 12 }}>
-          Crash Test
-        </button>
+        {isLoading && <Spinner />}
+        {!isLoading && <ResultsTable data={result} error={error} />}
+        <button onClick={this.triggerCrash}>Crash Test</button>
       </section>
     );
   }
