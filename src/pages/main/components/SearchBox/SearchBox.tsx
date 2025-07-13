@@ -37,7 +37,10 @@ class SearchBox extends Component<SearchBoxProps, SearchBoxState> {
           <p>{START_SEARCH_ENDPOINT}</p>
           <SearchInput
             onChange={this.handleChange}
-            placeholder={this.props.placeholder || 'Search...'}
+            value={this.state.query}
+            placeholder={
+              this.props.placeholder || 'Enter Pokémon full name or id'
+            }
           />
           <SearchButton type="submit" />
         </div>
