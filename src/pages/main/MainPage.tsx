@@ -10,6 +10,7 @@ export interface MainPageState {
   result: AllPokemonsData | SinglePokemon | null;
   error: string | null;
   loading: boolean;
+  crash: boolean;
 }
 class MainPage extends Component<object, MainPageState> {
   constructor(props: object) {
@@ -18,6 +19,7 @@ class MainPage extends Component<object, MainPageState> {
       result: null,
       error: null,
       loading: false,
+      crash: false,
     };
   }
 
@@ -46,14 +48,25 @@ class MainPage extends Component<object, MainPageState> {
     }
   };
 
+  triggerCrash = () => {
+    this.setState({ crash: true });
+  };
+
   render() {
-    const { result, error, loading } = this.state;
+    const { result, error, loading, crash } = this.state;
+
+    if (crash) {
+      throw new Error('Test crash from MainPage');
+    }
 
     return (
       <section className="main-page">
         <SearchBox onSearch={this.handleSearch} />
         {loading && <Spinner />}
         {!loading && <ResultsTable data={result} error={error} />}
+        <button onClick={this.triggerCrash} style={{ marginBottom: 12 }}>
+          Crash Test
+        </button>
       </section>
     );
   }
