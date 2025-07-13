@@ -1,0 +1,22 @@
+.searchBoxContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.searchInput {
+  width: 220px;
+  padding: 0.6em 1.2em;
+  border: 1px solid transparent;
+  border-radius: 8px;
+
+  font-family: inherit;
+  font-size: 1em;
+  font-weight: 500;
+
+  background-color: #1a1a1a;
+
+  transition: border-color 0.25s;
+}
