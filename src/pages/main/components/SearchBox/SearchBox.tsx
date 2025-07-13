@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { START_SEARCH_ENDPOINT } from '../../../../shared/api/endpoints';
 import SearchButton from './components/SearchButton/SearchButton';
 import SearchInput from './components/SearchInput/SearchInput';
-import './SearchBox.css';
+import styles from './SearchBox.module.css';
 
 interface SearchBoxProps {
   onSearch: (query: string) => void;
@@ -33,7 +33,7 @@ class SearchBox extends Component<SearchBoxProps, SearchBoxState> {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <div className="search-box-container">
+        <div className={styles.searchBoxContainer}>
           <p>{START_SEARCH_ENDPOINT}</p>
           <SearchInput
             onChange={this.handleChange}
@@ -41,6 +41,7 @@ class SearchBox extends Component<SearchBoxProps, SearchBoxState> {
             placeholder={
               this.props.placeholder || 'Enter Pokémon full name or id'
             }
+            className={styles.searchInput}
           />
           <SearchButton type="submit" />
         </div>
