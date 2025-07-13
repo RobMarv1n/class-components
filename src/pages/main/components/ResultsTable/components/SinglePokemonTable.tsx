@@ -1,8 +1,8 @@
 import { Component } from 'react';
-import type { SinglePokemon } from '../../../../../shared/api/types/SinglePokemonTypes';
+import type { SinglePokemonData } from '../../../../../shared/api/types/SinglePokemonTypes';
 
 interface SinglePokemonTableProps {
-  data: SinglePokemon;
+  data: SinglePokemonData;
 }
 
 class SinglePokemonTable extends Component<SinglePokemonTableProps> {
@@ -34,7 +34,7 @@ class SinglePokemonTable extends Component<SinglePokemonTableProps> {
             <td>Sprite</td>
             <td>
               {sprites.front_default && (
-                <img src={sprites.front_default} alt={name} width={56} />
+                <img src={sprites.front_default} alt={name} width={125} />
               )}
             </td>
           </tr>
