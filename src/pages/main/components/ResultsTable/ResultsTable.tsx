@@ -1,35 +1,34 @@
 import { Component } from 'react';
-import type { PokemonsData } from '../../MainPage';
+import type { AllPokemonsData } from '../../../../shared/api/types/AllPokemonsTypes';
+import type { SinglePokemon } from '../../../../shared/api/types/SinglePokemonTypes';
+import DataUploadError from '../../../../shared/ui/DataUploadError';
+import AllPokemonsTable from './components/AllPokemonsTable';
+import SinglePokemonTable from './components/SinglePokemonTable';
 
 export interface ResultsTableProps {
-  results: PokemonsData;
+  data: AllPokemonsData | SinglePokemon | null;
+  error: string | null;
 }
-
-export type PokemonListData = {
-  url: string;
-  name: string;
-};
 
 class ResultsTable extends Component<ResultsTableProps> {
   render() {
-    return (
-      <table>
-        <thead>
-          <tr>
-            <th>name</th>
-            <th>url</th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.props.results.results.map((result: PokemonListData) => (
-            <tr key={result.name}>
-              <td>{result.name}</td>
-              <td>{result.url}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    );
+    const { data, error } = this.props;
+
+    if (error) {
+      return <DataUploadError message={error} />;
+    }
+
+    if (!data) return <p>Nothing was found</p>;
+
+    if ('results' in data) {
+      return <AllPokemonsTable data={data} />;
+    }
+
+    if ('sprites' in data && 'height' in data) {
+      return <SinglePokemonTable data={data} />;
+    }
+
+    return <p>Unsupported data format</p>;
   }
 }
 
