@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import SearchApiPath from './components/SearchApiPath/SearchApiPath';
+import { START_SEARCH_ENDPOINT } from '../../../../shared/api/endpoints';
 import SearchButton from './components/SearchButton/SearchButton';
 import SearchInput from './components/SearchInput/SearchInput';
 import './SearchBox.css';
@@ -31,7 +31,7 @@ class SearchBox extends Component<SearchBoxProps, SearchBoxState> {
   render() {
     return (
       <div className="search-box-container">
-        <SearchApiPath />
+        <p>{START_SEARCH_ENDPOINT}</p>
         <SearchInput
           onChange={this.handleChange}
           placeholder={this.props.placeholder || 'Search...'}
