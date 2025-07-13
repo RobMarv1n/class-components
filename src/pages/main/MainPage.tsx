@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { START_SEARCH_ENDPOINT } from '../../shared/api/endpoints';
 import type { AllPokemonsData } from '../../shared/api/types/AllPokemonsTypes';
-import type { SinglePokemon } from '../../shared/api/types/SinglePokemonTypes';
+import type { SinglePokemonData } from '../../shared/api/types/SinglePokemonTypes';
 import Spinner from '../../shared/ui/Spinner/Spinner';
 import ResultsTable from './components/ResultsTable/ResultsTable';
 import SearchBox from './components/SearchBox/SearchBox';
@@ -9,7 +9,7 @@ import SearchBox from './components/SearchBox/SearchBox';
 const LAST_POKEMON_SEARCH = '[LAST_POKEMON_SEARCH]';
 
 export interface MainPageState {
-  result: AllPokemonsData | SinglePokemon | null;
+  result: AllPokemonsData | SinglePokemonData | null;
   error: string | null;
   isLoading: boolean;
   isCrashing: boolean;

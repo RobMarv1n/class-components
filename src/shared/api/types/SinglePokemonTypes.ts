@@ -1,4 +1,4 @@
-export type SinglePokemon = {
+export type SinglePokemonData = {
   id: number;
   name: string;
   base_experience: number;
