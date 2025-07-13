@@ -1,7 +1,8 @@
 import { Component } from 'react';
 
 interface SearchButtonProps {
-  onClick: () => void;
+  onClick?: () => void;
+  type?: string;
 }
 
 class SearchButton extends Component<SearchButtonProps> {
