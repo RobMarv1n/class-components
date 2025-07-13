@@ -2,12 +2,14 @@ import { Component } from 'react';
 import { START_SEARCH_ENDPOINT } from '../../shared/api/endpoints';
 import type { AllPokemonsData } from '../../shared/api/types/AllPokemonsTypes';
 import type { SinglePokemon } from '../../shared/api/types/SinglePokemonTypes';
+import Spinner from '../../shared/ui/Spinner/Spinner';
 import ResultsTable from './components/ResultsTable/ResultsTable';
 import SearchBox from './components/SearchBox/SearchBox';
 
 export interface MainPageState {
   result: AllPokemonsData | SinglePokemon | null;
   error: string | null;
+  loading: boolean;
 }
 class MainPage extends Component<object, MainPageState> {
   constructor(props: object) {
@@ -15,11 +17,12 @@ class MainPage extends Component<object, MainPageState> {
     this.state = {
       result: null,
       error: null,
+      loading: false,
     };
   }
 
   handleSearch = async (query: string) => {
-    this.setState({ error: null });
+    this.setState({ error: null, loading: true });
     try {
       const response = await fetch(`${START_SEARCH_ENDPOINT}${query}`);
 
@@ -30,7 +33,7 @@ class MainPage extends Component<object, MainPageState> {
       const data = await response.json();
 
       if (data) {
-        this.setState({ result: data });
+        this.setState({ result: data, loading: false });
       }
     } catch (error: unknown) {
       let message = 'Unknown error occurred';
@@ -39,17 +42,18 @@ class MainPage extends Component<object, MainPageState> {
         message = error.message;
       }
 
-      this.setState({ result: null, error: message });
+      this.setState({ result: null, error: message, loading: false });
     }
   };
 
   render() {
-    const { result, error } = this.state;
+    const { result, error, loading } = this.state;
 
     return (
       <section className="main-page">
         <SearchBox onSearch={this.handleSearch} />
-        <ResultsTable data={result} error={error} />
+        {loading && <Spinner />}
+        {!loading && <ResultsTable data={result} error={error} />}
       </section>
     );
   }
