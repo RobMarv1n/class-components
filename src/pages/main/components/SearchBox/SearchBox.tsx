@@ -1,8 +1,8 @@
 import { Component } from 'react';
 import { START_SEARCH_ENDPOINT } from '../../../../shared/api/endpoints';
-import SearchButton from './components/SearchButton/SearchButton';
-import SearchInput from './components/SearchInput/SearchInput';
 import styles from './SearchBox.module.css';
+import { Button } from '../../../../shared/ui/Button/Button';
+import { Input } from '../../../../shared/ui/Input/Input';
 
 interface SearchBoxProps {
   onSearch: (query: string) => void;
@@ -35,7 +35,7 @@ class SearchBox extends Component<SearchBoxProps, SearchBoxState> {
       <form onSubmit={this.handleSubmit}>
         <div className={styles.searchBoxContainer}>
           <p>{START_SEARCH_ENDPOINT}</p>
-          <SearchInput
+          <Input
             onChange={this.handleChange}
             value={this.state.query}
             placeholder={
@@ -43,7 +43,7 @@ class SearchBox extends Component<SearchBoxProps, SearchBoxState> {
             }
             className={styles.searchInput}
           />
-          <SearchButton type="submit" />
+          <Button type="submit">Search</Button>
         </div>
       </form>
     );
