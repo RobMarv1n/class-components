@@ -1,4 +1,4 @@
-export type AllPokemonsData = {
+export type AllPokemonData = {
   results: AllPokemonListData[];
   count: number;
 };
