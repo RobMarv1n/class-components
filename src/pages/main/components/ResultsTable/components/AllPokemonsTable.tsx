@@ -1,11 +1,11 @@
 import { Component } from 'react';
 import type {
   AllPokemonListData,
-  AllPokemonsData,
-} from '../../../../../shared/api/types/AllPokemonsTypes';
+  AllPokemonData,
+} from '../../../../../shared/api/types/AllPokemonTypes';
 
 interface AllPokemonsTableProps {
-  data: AllPokemonsData;
+  data: AllPokemonData;
 }
 
 class AllPokemonsTable extends Component<AllPokemonsTableProps> {

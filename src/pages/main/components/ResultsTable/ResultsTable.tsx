@@ -1,13 +1,14 @@
 import { Component } from 'react';
-import type { AllPokemonsData } from '../../../../shared/api/types/AllPokemonsTypes';
+
 import type { SinglePokemonData } from '../../../../shared/api/types/SinglePokemonTypes';
 import DataUploadError from '../../../../shared/ui/DataUploadError';
 import AllPokemonsTable from './components/AllPokemonsTable';
 import SinglePokemonTable from './components/SinglePokemonTable';
 import styles from './ResultsTable.module.css';
+import type { AllPokemonData } from '../../../../shared/api/types/AllPokemonTypes';
 
 export interface ResultsTableProps {
-  data: AllPokemonsData | SinglePokemonData | null;
+  data: AllPokemonData | SinglePokemonData | null;
   error: string | null;
 }
 
