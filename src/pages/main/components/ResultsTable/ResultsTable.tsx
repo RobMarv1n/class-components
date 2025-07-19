@@ -1,16 +1,10 @@
 import { Component } from 'react';
-
 import type { SinglePokemonData } from '../../../../shared/api/types/SinglePokemonTypes';
 import DataUploadError from '../../../../shared/ui/DataUploadError';
 import AllPokemonsTable from './components/AllPokemonsTable';
 import SinglePokemonTable from './components/SinglePokemonTable';
 import styles from './ResultsTable.module.css';
 import type { AllPokemonData } from '../../../../shared/api/types/AllPokemonTypes';
-
-export interface ResultsTableProps {
-  data: AllPokemonData | SinglePokemonData | null;
-  error: string | null;
-}
 
 class ResultsTable extends Component<ResultsTableProps> {
   render() {
@@ -32,6 +26,11 @@ class ResultsTable extends Component<ResultsTableProps> {
 
     return <section className={styles.resultsTable}>{content}</section>;
   }
+}
+
+export interface ResultsTableProps {
+  data: AllPokemonData | SinglePokemonData | null;
+  error: string | null;
 }
 
 export default ResultsTable;

@@ -2,11 +2,7 @@ import type { ComponentPropsWithoutRef } from 'react';
 import { Component } from 'react';
 import styles from './Input.module.css';
 
-export type InputProps = ComponentPropsWithoutRef<'input'> & {
-  label?: string;
-};
-
-export class Input extends Component<InputProps> {
+class Input extends Component<InputProps> {
   private get inputId() {
     return this.props.id || `input-${Math.random().toString(36).slice(2, 8)}`;
   }
@@ -36,3 +32,9 @@ export class Input extends Component<InputProps> {
     );
   }
 }
+
+export type InputProps = ComponentPropsWithoutRef<'input'> & {
+  label?: string;
+};
+
+export default Input;

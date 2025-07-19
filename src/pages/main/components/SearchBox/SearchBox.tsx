@@ -1,17 +1,8 @@
 import { Component } from 'react';
 import { START_SEARCH_ENDPOINT } from '../../../../shared/api/endpoints';
 import styles from './SearchBox.module.css';
-import { Button } from '../../../../shared/ui/Button/Button';
-import { Input } from '../../../../shared/ui/Input/Input';
-
-interface SearchBoxProps {
-  onSearch: (query: string) => void;
-  placeholder?: string;
-  initialQuery?: string;
-}
-interface SearchBoxState {
-  query: string;
-}
+import Button from '../../../../shared/ui/Button/Button';
+import Input from '../../../../shared/ui/Input/Input';
 
 class SearchBox extends Component<SearchBoxProps, SearchBoxState> {
   constructor(props: SearchBoxProps) {
@@ -48,6 +39,15 @@ class SearchBox extends Component<SearchBoxProps, SearchBoxState> {
       </form>
     );
   }
+}
+
+interface SearchBoxProps {
+  onSearch: (query: string) => void;
+  placeholder?: string;
+  initialQuery?: string;
+}
+interface SearchBoxState {
+  query: string;
 }
 
 export default SearchBox;

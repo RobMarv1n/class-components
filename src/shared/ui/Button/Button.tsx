@@ -1,9 +1,7 @@
 import { type ComponentPropsWithoutRef, Component } from 'react';
 import styles from './Button.module.css';
 
-type ButtonProperties = ComponentPropsWithoutRef<'button'>;
-
-export class Button extends Component<ButtonProperties> {
+class Button extends Component<ButtonProperties> {
   render() {
     const { className, type, disabled, onClick, children } = this.props;
 
@@ -19,3 +17,7 @@ export class Button extends Component<ButtonProperties> {
     );
   }
 }
+
+type ButtonProperties = ComponentPropsWithoutRef<'button'>;
+
+export default Button;
