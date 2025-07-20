@@ -1,22 +1,6 @@
 import { Component, type ReactNode } from 'react';
 
-type FallbackRender =
-  | ReactNode
-  | ((error: Error, reset: () => void) => ReactNode);
-
-interface ErrorBoundaryProps {
-  children: ReactNode;
-  fallback?: FallbackRender;
-}
-
-interface ErrorBoundaryState {
-  error: Error | null;
-}
-
-export class ErrorBoundary extends Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   state: ErrorBoundaryState = { error: null };
 
   static getDerivedStateFromError(error: Error) {
@@ -48,3 +32,18 @@ export class ErrorBoundary extends Component<
     return children;
   }
 }
+
+type FallbackRender =
+  | ReactNode
+  | ((error: Error, reset: () => void) => ReactNode);
+
+interface ErrorBoundaryProps {
+  children: ReactNode;
+  fallback?: FallbackRender;
+}
+
+interface ErrorBoundaryState {
+  error: Error | null;
+}
+
+export default ErrorBoundary;

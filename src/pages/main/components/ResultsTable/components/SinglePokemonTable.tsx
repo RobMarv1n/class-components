@@ -1,14 +1,14 @@
 import { Component } from 'react';
 import type { SinglePokemonData } from '../../../../../shared/api/types/SinglePokemonTypes';
 
-interface SinglePokemonTableProps {
-  data: SinglePokemonData;
-}
-
 class SinglePokemonTable extends Component<SinglePokemonTableProps> {
   render() {
     const { data } = this.props;
     const { id, name, height, weight, sprites } = data;
+
+    if (!name && !height && !weight) {
+      return <p>Nothing was found</p>;
+    }
 
     return (
       <table>
@@ -42,6 +42,10 @@ class SinglePokemonTable extends Component<SinglePokemonTableProps> {
       </table>
     );
   }
+}
+
+interface SinglePokemonTableProps {
+  data: SinglePokemonData;
 }
 
 export default SinglePokemonTable;

@@ -1,15 +1,10 @@
 import { Component } from 'react';
-import type { AllPokemonsData } from '../../../../shared/api/types/AllPokemonsTypes';
 import type { SinglePokemonData } from '../../../../shared/api/types/SinglePokemonTypes';
 import DataUploadError from '../../../../shared/ui/DataUploadError';
-import AllPokemonsTable from './components/AllPokemonsTable';
 import SinglePokemonTable from './components/SinglePokemonTable';
 import styles from './ResultsTable.module.css';
-
-export interface ResultsTableProps {
-  data: AllPokemonsData | SinglePokemonData | null;
-  error: string | null;
-}
+import type { AllPokemonData } from '../../../../shared/api/types/AllPokemonTypes';
+import AllPokemonTable from './components/AllPokemonTable';
 
 class ResultsTable extends Component<ResultsTableProps> {
   render() {
@@ -22,7 +17,7 @@ class ResultsTable extends Component<ResultsTableProps> {
     } else if (!data) {
       content = <p>Nothing was found</p>;
     } else if ('results' in data) {
-      content = <AllPokemonsTable data={data} />;
+      content = <AllPokemonTable data={data} />;
     } else if ('sprites' in data && 'height' in data) {
       content = <SinglePokemonTable data={data} />;
     } else {
@@ -31,6 +26,11 @@ class ResultsTable extends Component<ResultsTableProps> {
 
     return <section className={styles.resultsTable}>{content}</section>;
   }
+}
+
+export interface ResultsTableProps {
+  data: AllPokemonData | SinglePokemonData | null;
+  error: string | null;
 }
 
 export default ResultsTable;

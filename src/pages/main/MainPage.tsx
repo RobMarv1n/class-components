@@ -1,20 +1,11 @@
 import { Component } from 'react';
-import { START_SEARCH_ENDPOINT } from '../../shared/api/endpoints';
-import type { AllPokemonsData } from '../../shared/api/types/AllPokemonsTypes';
 import type { SinglePokemonData } from '../../shared/api/types/SinglePokemonTypes';
 import Spinner from '../../shared/ui/Spinner/Spinner';
 import ResultsTable from './components/ResultsTable/ResultsTable';
 import SearchBox from './components/SearchBox/SearchBox';
+import { searchPokemon } from '../../shared/api/service/pokemon.service';
+import type { AllPokemonData } from '../../shared/api/types/AllPokemonTypes';
 
-const LAST_POKEMON_SEARCH = '[LAST_POKEMON_SEARCH]';
-
-export interface MainPageState {
-  result: AllPokemonsData | SinglePokemonData | null;
-  error: string | null;
-  isLoading: boolean;
-  isCrashing: boolean;
-  lastQuery: string;
-}
 class MainPage extends Component<object, MainPageState> {
   constructor(props: object) {
     super(props);
@@ -36,29 +27,15 @@ class MainPage extends Component<object, MainPageState> {
     this.setState({ error: null, isLoading: true });
 
     try {
-      const response = await fetch(`${START_SEARCH_ENDPOINT}${query}`);
-
-      if (!response.ok) {
-        throw new Error(`${response.status} ${response.statusText}`);
-      }
-
-      const data = await response.json();
-
-      if (data) {
-        this.setState({ result: data, isLoading: false });
-      }
+      const data = await searchPokemon(query);
+      this.setState({ result: data, isLoading: false });
     } catch (error: unknown) {
-      let message = 'Unknown error occurred';
-
-      if (error instanceof Error) {
-        message = error.message;
-      }
-
+      const message = error instanceof Error ? error.message : 'Unknown error';
       this.setState({ result: null, error: message, isLoading: false });
     }
   };
 
-  triggerCrash = () => {
+  private triggerCrash = () => {
     this.setState({ isCrashing: true });
   };
 
@@ -78,6 +55,16 @@ class MainPage extends Component<object, MainPageState> {
       </section>
     );
   }
+}
+
+const LAST_POKEMON_SEARCH = '[LAST_POKEMON_SEARCH]';
+
+export interface MainPageState {
+  result: AllPokemonData | SinglePokemonData | null;
+  error: string | null;
+  isLoading: boolean;
+  isCrashing: boolean;
+  lastQuery: string;
 }
 
 export default MainPage;

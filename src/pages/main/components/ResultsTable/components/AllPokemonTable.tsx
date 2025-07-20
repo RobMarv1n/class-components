@@ -1,16 +1,16 @@
 import { Component } from 'react';
 import type {
   AllPokemonListData,
-  AllPokemonsData,
-} from '../../../../../shared/api/types/AllPokemonsTypes';
+  AllPokemonData,
+} from '../../../../../shared/api/types/AllPokemonTypes';
 
-interface AllPokemonsTableProps {
-  data: AllPokemonsData;
-}
-
-class AllPokemonsTable extends Component<AllPokemonsTableProps> {
+class AllPokemonTable extends Component<AllPokemonTableProps> {
   render() {
     const { data } = this.props;
+
+    if (data.results.length === 0 || data.count === 0) {
+      return <p>Nothing was found</p>;
+    }
 
     return (
       <table>
@@ -33,4 +33,8 @@ class AllPokemonsTable extends Component<AllPokemonsTableProps> {
   }
 }
 
-export default AllPokemonsTable;
+interface AllPokemonTableProps {
+  data: AllPokemonData;
+}
+
+export default AllPokemonTable;

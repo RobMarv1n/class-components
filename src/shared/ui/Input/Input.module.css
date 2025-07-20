@@ -1,0 +1,15 @@
+.input {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+
+  font-size: 1rem;
+  color: #fff;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #faf6f6;
+}

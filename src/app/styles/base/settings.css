@@ -4,13 +4,20 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
-  color: rgb(255 255 255 / 87%);
+  color: var(--color-primary-text);
   text-rendering: optimizelegibility;
 
   color-scheme: light dark;
-  background-color: #242424;
+  background-color: var(--color-primary-bg);
 
   font-synthesis: none;
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
 }
 
 a {
@@ -47,8 +54,6 @@ button {
   font-family: inherit;
   font-size: 1em;
   font-weight: 500;
-
-  background-color: #1a1a1a;
 
   transition: border-color 0.25s;
 }

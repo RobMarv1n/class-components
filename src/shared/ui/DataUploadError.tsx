@@ -1,9 +1,5 @@
 import { Component } from 'react';
 
-interface DataUploadErrorProps {
-  message: string;
-}
-
 class DataUploadError extends Component<DataUploadErrorProps> {
   render() {
     const { message } = this.props;
@@ -15,6 +11,10 @@ class DataUploadError extends Component<DataUploadErrorProps> {
       </div>
     );
   }
+}
+
+interface DataUploadErrorProps {
+  message: string;
 }
 
 export default DataUploadError;

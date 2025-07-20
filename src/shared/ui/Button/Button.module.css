@@ -1,0 +1,19 @@
+.button {
+  border-color: var(--color-button-primary);
+  color: #fff;
+  box-shadow:
+    0 0 40px 40px var(--color-button-primary) inset,
+    0 0 0 0 var(--color-button-primary);
+  transition: all 150ms ease-in-out;
+}
+
+.button:hover {
+  box-shadow:
+    0 0 10px 0 var(--color-button-primary) inset,
+    0 0 10px 4px var(--color-button-primary);
+}
+
+.button:disabled {
+  cursor: default;
+  background-color: var(--color-gray-3);
+}
