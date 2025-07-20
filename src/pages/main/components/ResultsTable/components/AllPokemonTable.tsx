@@ -4,9 +4,13 @@ import type {
   AllPokemonData,
 } from '../../../../../shared/api/types/AllPokemonTypes';
 
-class AllPokemonsTable extends Component<AllPokemonsTableProps> {
+class AllPokemonTable extends Component<AllPokemonTableProps> {
   render() {
     const { data } = this.props;
+
+    if (data.results.length === 0 || data.count === 0) {
+      return <p>Nothing was found</p>;
+    }
 
     return (
       <table>
@@ -29,8 +33,8 @@ class AllPokemonsTable extends Component<AllPokemonsTableProps> {
   }
 }
 
-interface AllPokemonsTableProps {
+interface AllPokemonTableProps {
   data: AllPokemonData;
 }
 
-export default AllPokemonsTable;
+export default AllPokemonTable;
