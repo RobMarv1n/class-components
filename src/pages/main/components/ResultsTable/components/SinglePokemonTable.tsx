@@ -6,6 +6,10 @@ class SinglePokemonTable extends Component<SinglePokemonTableProps> {
     const { data } = this.props;
     const { id, name, height, weight, sprites } = data;
 
+    if (!name && !height && !weight) {
+      return <p>Nothing was found</p>;
+    }
+
     return (
       <table>
         <thead>
