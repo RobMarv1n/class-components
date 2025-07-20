@@ -1,10 +1,10 @@
 import { Component } from 'react';
 import type { SinglePokemonData } from '../../../../shared/api/types/SinglePokemonTypes';
 import DataUploadError from '../../../../shared/ui/DataUploadError';
-import AllPokemonTable from './components/AllPokemonsTable';
 import SinglePokemonTable from './components/SinglePokemonTable';
 import styles from './ResultsTable.module.css';
 import type { AllPokemonData } from '../../../../shared/api/types/AllPokemonTypes';
+import AllPokemonTable from './components/AllPokemonTable';
 
 class ResultsTable extends Component<ResultsTableProps> {
   render() {
