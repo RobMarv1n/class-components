@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import type { SinglePokemonData } from '../../shared/api/types/SinglePokemonTypes';
 import Spinner from '../../shared/ui/Spinner/Spinner';
 import ResultsTable from './components/ResultsTable/ResultsTable';
@@ -6,65 +6,59 @@ import SearchBox from './components/SearchBox/SearchBox';
 import { searchPokemon } from '../../shared/api/service/pokemon.service';
 import type { AllPokemonData } from '../../shared/api/types/AllPokemonTypes';
 
-class MainPage extends Component<object, MainPageState> {
-  constructor(props: object) {
-    super(props);
-    this.state = {
-      result: null,
-      error: null,
-      isLoading: false,
-      isCrashing: false,
-      lastQuery: localStorage.getItem(LAST_POKEMON_SEARCH) || '',
-    };
-  }
+const LAST_POKEMON_SEARCH = '[LAST_POKEMON_SEARCH]';
 
-  componentDidMount() {
-    this.handleSearch(this.state.lastQuery);
-  }
+function MainPage() {
+  const [result, setResult] = useState<
+    AllPokemonData | SinglePokemonData | null
+  >(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isCrashing, setIsCrashing] = useState(false);
+  const [lastQuery] = useState(
+    () => localStorage.getItem(LAST_POKEMON_SEARCH) || ''
+  );
 
-  handleSearch = async (query: string) => {
+  useEffect(() => {
+    if (lastQuery) {
+      handleSearch(lastQuery);
+    }
+  }, [lastQuery]);
+
+  const handleSearch = async (query: string) => {
     localStorage.setItem(LAST_POKEMON_SEARCH, query);
-    this.setState({ error: null, isLoading: true });
+    setError(null);
+    setIsLoading(true);
 
     try {
       const data = await searchPokemon(query);
-      this.setState({ result: data, isLoading: false });
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : 'Unknown error';
-      this.setState({ result: null, error: message, isLoading: false });
+      setResult(data);
+    } catch (error_: unknown) {
+      const message =
+        error_ instanceof Error ? error_.message : 'Unknown error';
+      setResult(null);
+      setError(message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  private triggerCrash = () => {
-    this.setState({ isCrashing: true });
+  const triggerCrash = () => {
+    setIsCrashing(true);
   };
 
-  render() {
-    const { result, error, isLoading, isCrashing, lastQuery } = this.state;
-
-    if (isCrashing) {
-      throw new Error('Test crash from MainPage');
-    }
-
-    return (
-      <section className="main-page">
-        <SearchBox onSearch={this.handleSearch} initialQuery={lastQuery} />
-        {isLoading && <Spinner />}
-        {!isLoading && <ResultsTable data={result} error={error} />}
-        <button onClick={this.triggerCrash}>Crash Test</button>
-      </section>
-    );
+  if (isCrashing) {
+    throw new Error('Test crash from MainPage');
   }
-}
 
-const LAST_POKEMON_SEARCH = '[LAST_POKEMON_SEARCH]';
-
-export interface MainPageState {
-  result: AllPokemonData | SinglePokemonData | null;
-  error: string | null;
-  isLoading: boolean;
-  isCrashing: boolean;
-  lastQuery: string;
+  return (
+    <section className="main-page">
+      <SearchBox onSearch={handleSearch} initialQuery={lastQuery} />
+      {isLoading && <Spinner />}
+      {!isLoading && <ResultsTable data={result} error={error} />}
+      <button onClick={triggerCrash}>Crash Test</button>
+    </section>
+  );
 }
 
 export default MainPage;
