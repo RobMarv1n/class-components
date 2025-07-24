@@ -4,7 +4,7 @@ import type {
 } from '../../../../../shared/api/types/AllPokemonTypes';
 
 function AllPokemonTable({ data }: AllPokemonTableProps) {
-  if (data.results.length === 0 || !data.count) {
+  if (!data.results.length || !data.count) {
     return <p>Nothing was found</p>;
   }
 
