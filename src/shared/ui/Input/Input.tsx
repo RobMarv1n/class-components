@@ -1,36 +1,29 @@
-import type { ComponentPropsWithoutRef } from 'react';
-import { Component } from 'react';
+import { useId, type ComponentPropsWithoutRef } from 'react';
 import styles from './Input.module.css';
 
-class Input extends Component<InputProps> {
-  private get inputId() {
-    return this.props.id || `input-${Math.random().toString(36).slice(2, 8)}`;
-  }
+function Input(props: InputProps) {
+  const { label, className = '', id, ...restProps } = props;
+  const generatedId = useId();
+  const inputId = id || generatedId;
 
-  render() {
-    const { label, className = '', id, ...restProps } = this.props;
+  return (
+    <div className={className}>
+      {label && (
+        <label
+          htmlFor={inputId}
+          className={`${styles.label} ${className || ''}`}
+        >
+          {label}
+        </label>
+      )}
 
-    const inputId = id || this.inputId;
-
-    return (
-      <div className={className}>
-        {label && (
-          <label
-            htmlFor={inputId}
-            className={`${styles.label} ${className || ''}`}
-          >
-            {label}
-          </label>
-        )}
-
-        <input
-          id={inputId}
-          className={`${styles.input} ${className || ''}`}
-          {...restProps}
-        />
-      </div>
-    );
-  }
+      <input
+        id={inputId}
+        className={`${styles.input} ${className || ''}`}
+        {...restProps}
+      />
+    </div>
+  );
 }
 
 export type InputProps = ComponentPropsWithoutRef<'input'> & {
