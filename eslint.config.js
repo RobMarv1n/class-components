@@ -39,6 +39,7 @@ export default tseslint.config(
       ...react.configs['jsx-runtime'].rules,
       'unicorn/filename-case': 'off',
       'unicorn/no-null': 'off',
+      'unicorn/explicit-length-check': 'off',
       'unicorn/prevent-abbreviations': [
         'error',
         {
