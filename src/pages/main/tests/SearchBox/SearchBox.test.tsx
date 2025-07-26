@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, test, expect, vi } from 'vitest';
-import SearchBox from '../../components/SearchBox/SearchBox';
 import { START_SEARCH_ENDPOINT } from '../../../../shared/api/endpoints';
+import SearchBox from '../../ui/SearchBox/SearchBox';
 
 describe('SearchBox', () => {
   test('Should render with initial query if provided', () => {
