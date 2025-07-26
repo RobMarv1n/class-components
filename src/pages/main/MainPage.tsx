@@ -1,10 +1,10 @@
 import { useNavigate, Outlet } from 'react-router-dom';
 import { useCallback } from 'react';
-
 import Pagination from './ui/Pagination/Pagination';
 import SearchBox from './ui/SearchBox/SearchBox';
 import { AllCharactersTable } from './ui/AllCharactersTable';
 import { useCharactersSearch } from './hooks/useCharactersSearch';
+import Header from '../../widgets/ui/Header/Header';
 
 export function MainPage() {
   const {
@@ -44,6 +44,7 @@ export function MainPage() {
 
   return (
     <section className="main-page">
+      <Header />
       <SearchBox onSearch={handleSearchWithReset} initialQuery={lastQuery} />
       <div style={{ display: 'flex', width: 650, height: 700 }}>
         {!isLoading && (
