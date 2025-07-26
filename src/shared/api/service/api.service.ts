@@ -1,5 +1,5 @@
 import { START_SEARCH_ENDPOINT } from '../endpoints';
-import type { AllCharactersData } from '../types/types';
+import type { AllCharactersData, SingleCharacterData } from '../types/types';
 
 export async function getAllCharacters(
   name: string,
@@ -14,7 +14,9 @@ export async function getAllCharacters(
   return response.json();
 }
 
-export async function getSingleCharacter(id: number): Promise<CharacterData> {
+export async function getSingleCharacter(
+  id: number
+): Promise<SingleCharacterData> {
   const response = await fetch(`${START_SEARCH_ENDPOINT}/${id}`);
   if (!response.ok) {
     throw new Error('Character not found');
