@@ -8,7 +8,15 @@ export default function Pagination({
   const visiblePages = getVisiblePageNumbers(currentPageNumber, totalPageCount);
 
   return (
-    <div className="pagination-controls">
+    <div
+      className="pagination-controls"
+      style={{
+        display: 'flex',
+        gap: '1rem',
+        justifyContent: 'center',
+        alignItems: 'end',
+      }}
+    >
       {visiblePages.map((page, index) => {
         if (typeof page === 'number') {
           return (
