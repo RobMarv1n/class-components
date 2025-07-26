@@ -1,105 +1,69 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { getPokemonList } from '../../shared/api/service/pokemon.service';
-import Spinner from '../../shared/ui/Spinner/Spinner';
-import ResultsTable from './components/ResultsTable/ResultsTable';
-import SearchBox from './components/SearchBox/SearchBox';
-import useLocalStorage from '../../shared/hooks/useLocalStorage';
-import type {
-  AllPokemonData,
-  AllPokemonListData,
-} from '../../shared/api/types/AllPokemonTypes';
-import type { SinglePokemonData } from '../../shared/api/types/SinglePokemonTypes';
-import Pagination from './components/Pagination/Pagination';
+import { useNavigate, Outlet } from 'react-router-dom';
+import { useCallback } from 'react';
 
-const LAST_POKEMON_SEARCH = '[LAST_POKEMON_SEARCH]';
-const PAGE_LIMIT = 20;
+import Pagination from './ui/Pagination/Pagination';
+import SearchBox from './ui/SearchBox/SearchBox';
+import { AllCharactersTable } from './ui/AllCharactersTable';
+import { useCharactersSearch } from './hooks/useCharactersSearch';
 
 export function MainPage() {
-  const [result, setResult] = useState<ResultsType>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [lastQuery, setLastQuery] = useLocalStorage(LAST_POKEMON_SEARCH, '');
-  const [searchParameters, setSearchParameters] = useSearchParams();
+  const {
+    result,
+    error,
+    isLoading,
+    lastQuery,
+    currentPage,
+    totalPages,
+    handleSearch,
+    setSearchParameters,
+  } = useCharactersSearch();
 
-  const currentPage = Number(searchParameters.get('page')) || 1;
+  const navigate = useNavigate();
 
-  const offset = (currentPage - 1) * PAGE_LIMIT;
-
-  const totalItems = (result as AllPokemonData)?.count || 0;
-  const totalPages = Math.ceil(totalItems / PAGE_LIMIT);
-
-  const handleSearch = useCallback(
-    async (searchQuery: string, options?: { resetPage?: boolean }) => {
-      setLastQuery(searchQuery);
-
-      if (options?.resetPage) {
-        setSearchParameters({ page: '1' });
-      }
-
-      setError(null);
-      setIsLoading(true);
-
-      try {
-        if (searchQuery.trim()) {
-          const allData = await getPokemonList(10_000, 0);
-          const filtered = allData.results.filter(
-            (pokemon: AllPokemonListData) =>
-              pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
-          );
-
-          const paginated = filtered.slice(offset, offset + PAGE_LIMIT);
-
-          setResult({
-            count: filtered.length,
-            results: paginated,
-          } as AllPokemonData);
-        } else {
-          const data = await getPokemonList(PAGE_LIMIT, offset);
-          setResult(data);
-        }
-      } catch (requestError) {
-        const message =
-          requestError instanceof Error
-            ? requestError.message
-            : 'Unknown error';
-        setResult(null);
-        setError(message);
-      } finally {
-        setIsLoading(false);
-      }
+  const handlePageChange = useCallback(
+    (page: number) => {
+      const parameters = new URLSearchParams(location.search);
+      parameters.set('page', page.toString());
+      setSearchParameters(parameters);
+      navigate(`/?${parameters.toString()}`);
     },
-    [offset, setLastQuery, setSearchParameters]
+    [setSearchParameters, navigate]
   );
 
-  useEffect(() => {
-    handleSearch(lastQuery);
-  }, [lastQuery, offset, handleSearch]);
+  const handleSelectCharacter = useCallback(
+    (id: number) => {
+      navigate(`/character/${id}?page=${currentPage}`);
+    },
+    [navigate, currentPage]
+  );
 
-  const handlePageClick = (pageNumber: number) => {
-    setSearchParameters({ page: pageNumber.toString() });
-  };
+  const handleSearchWithReset = useCallback(
+    (query: string) => handleSearch(query, { resetPage: true }),
+    [handleSearch]
+  );
 
   return (
     <section className="main-page">
-      <SearchBox
-        onSearch={(query) => handleSearch(query, { resetPage: true })}
-        initialQuery={lastQuery}
-      />
-      {isLoading && <Spinner />}
-      {!isLoading && <ResultsTable data={result} error={error} />}
-
+      <SearchBox onSearch={handleSearchWithReset} initialQuery={lastQuery} />
+      <div style={{ display: 'flex', width: 650, height: 700 }}>
+        {!isLoading && (
+          <AllCharactersTable
+            data={result}
+            error={error}
+            onSelectCharacter={handleSelectCharacter}
+          />
+        )}
+        <Outlet />
+      </div>
       {totalPages > 1 && (
         <Pagination
           currentPageNumber={currentPage}
           totalPageCount={totalPages}
-          onPageChange={handlePageClick}
+          onPageChange={handlePageChange}
         />
       )}
     </section>
   );
 }
-
-type ResultsType = AllPokemonData | SinglePokemonData | null;
 
 export default MainPage;
