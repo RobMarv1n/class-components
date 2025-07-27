@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { getSingleCharacter } from '../../../shared/api/service/api.service';
 import type { SingleCharacterData } from '../../../shared/api/types/types';
 import Spinner from '../../../shared/ui/Spinner/Spinner';
@@ -9,9 +9,16 @@ export default function DetailedCharacterLayout() {
   const { id } = useParams<{ id: string }>();
   const [data, setData] = useState<SingleCharacterData | null>(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const [searchParameters] = useSearchParams();
+  const page = searchParameters.get('page');
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) {
+      setData(null);
+      setLoading(false);
+      return;
+    }
 
     setLoading(true);
     getSingleCharacter(Number(id))
@@ -21,11 +28,18 @@ export default function DetailedCharacterLayout() {
   }, [id]);
 
   if (loading) return <Spinner />;
-  if (!data) return <p>Character not found</p>;
+  if (!loading && !data) return <p>Character not found</p>;
+
+  const handleClose = () => {
+    navigate(`/?page=${page || 1}`);
+  };
 
   return (
     <div style={{ marginLeft: '2rem' }}>
-      <SingleCharacterTable data={data} />
+      <button onClick={handleClose} style={{ marginBottom: '1rem' }}>
+        Close
+      </button>
+      {data && <SingleCharacterTable data={data} />}
     </div>
   );
 }
