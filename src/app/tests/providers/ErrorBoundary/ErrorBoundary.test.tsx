@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { describe, test, expect } from 'vitest';
 import ErrorBoundary from '../../../providers/ErrorBoundary/ErrorBoundary';
-import { ThrowErrorMock } from '../../../../shared/testsMocks/ThrowErrorMock';
+import { ThrowErrorMock } from '../../../../shared/mocks/ThrowErrorMock';
 
 describe('ErrorBoundary', () => {
   test('Should render children without error', () => {
