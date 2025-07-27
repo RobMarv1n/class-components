@@ -17,7 +17,7 @@ export async function getAllCharacters(
 export async function getSingleCharacter(
   id: number
 ): Promise<SingleCharacterData> {
-  const response = await fetch(`${START_SEARCH_ENDPOINT}/${id}`);
+  const response = await fetch(`${START_SEARCH_ENDPOINT}${id}`);
   if (!response.ok) {
     throw new Error('Character not found');
   }
