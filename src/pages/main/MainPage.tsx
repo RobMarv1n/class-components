@@ -1,70 +1,70 @@
-import { Component } from 'react';
-import type { SinglePokemonData } from '../../shared/api/types/SinglePokemonTypes';
-import Spinner from '../../shared/ui/Spinner/Spinner';
-import ResultsTable from './components/ResultsTable/ResultsTable';
-import SearchBox from './components/SearchBox/SearchBox';
-import { searchPokemon } from '../../shared/api/service/pokemon.service';
-import type { AllPokemonData } from '../../shared/api/types/AllPokemonTypes';
+import { useNavigate, Outlet } from 'react-router-dom';
+import { useCallback } from 'react';
+import Pagination from './ui/Pagination/Pagination';
+import SearchBox from './ui/SearchBox/SearchBox';
+import { AllCharactersTable } from './ui/AllCharactersTable';
+import { useCharactersSearch } from './hooks/useCharactersSearch';
+import Header from '../../widgets/ui/Header/Header';
 
-class MainPage extends Component<object, MainPageState> {
-  constructor(props: object) {
-    super(props);
-    this.state = {
-      result: null,
-      error: null,
-      isLoading: false,
-      isCrashing: false,
-      lastQuery: localStorage.getItem(LAST_POKEMON_SEARCH) || '',
-    };
-  }
+export function MainPage() {
+  const {
+    result,
+    error,
+    isLoading,
+    lastQuery,
+    currentPage,
+    totalPages,
+    handleSearch,
+    setSearchParameters,
+  } = useCharactersSearch();
 
-  componentDidMount() {
-    this.handleSearch(this.state.lastQuery);
-  }
+  const navigate = useNavigate();
 
-  handleSearch = async (query: string) => {
-    localStorage.setItem(LAST_POKEMON_SEARCH, query);
-    this.setState({ error: null, isLoading: true });
+  const handlePageChange = useCallback(
+    (page: number) => {
+      const parameters = new URLSearchParams(location.search);
+      parameters.set('page', page.toString());
+      setSearchParameters(parameters);
+      navigate(`/?${parameters.toString()}`);
+    },
+    [setSearchParameters, navigate]
+  );
 
-    try {
-      const data = await searchPokemon(query);
-      this.setState({ result: data, isLoading: false });
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : 'Unknown error';
-      this.setState({ result: null, error: message, isLoading: false });
-    }
-  };
+  const handleSelectCharacter = useCallback(
+    (id: number) => {
+      navigate(`/character/${id}?page=${currentPage}`);
+    },
+    [navigate, currentPage]
+  );
 
-  private triggerCrash = () => {
-    this.setState({ isCrashing: true });
-  };
+  const handleSearchWithReset = useCallback(
+    (query: string) => handleSearch(query, { resetPage: true }),
+    [handleSearch]
+  );
 
-  render() {
-    const { result, error, isLoading, isCrashing, lastQuery } = this.state;
-
-    if (isCrashing) {
-      throw new Error('Test crash from MainPage');
-    }
-
-    return (
-      <section className="main-page">
-        <SearchBox onSearch={this.handleSearch} initialQuery={lastQuery} />
-        {isLoading && <Spinner />}
-        {!isLoading && <ResultsTable data={result} error={error} />}
-        <button onClick={this.triggerCrash}>Crash Test</button>
-      </section>
-    );
-  }
-}
-
-const LAST_POKEMON_SEARCH = '[LAST_POKEMON_SEARCH]';
-
-export interface MainPageState {
-  result: AllPokemonData | SinglePokemonData | null;
-  error: string | null;
-  isLoading: boolean;
-  isCrashing: boolean;
-  lastQuery: string;
+  return (
+    <section className="main-page">
+      <Header />
+      <SearchBox onSearch={handleSearchWithReset} initialQuery={lastQuery} />
+      <div style={{ display: 'flex', width: 650, height: 700 }}>
+        {!isLoading && (
+          <AllCharactersTable
+            data={result}
+            error={error}
+            onSelectCharacter={handleSelectCharacter}
+          />
+        )}
+        <Outlet />
+      </div>
+      {totalPages > 1 && (
+        <Pagination
+          currentPageNumber={currentPage}
+          totalPageCount={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
+    </section>
+  );
 }
 
 export default MainPage;

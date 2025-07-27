@@ -6,10 +6,8 @@
   line-height: 1.5;
   color: var(--color-primary-text);
   text-rendering: optimizelegibility;
-
   color-scheme: light dark;
   background-color: var(--color-primary-bg);
-
   font-synthesis: none;
 }
 
@@ -33,7 +31,6 @@ a:hover {
 body {
   display: flex;
   place-items: center;
-
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
@@ -46,15 +43,12 @@ h1 {
 
 button {
   cursor: pointer;
-
   padding: 0.6em 1.2em;
   border: 1px solid transparent;
   border-radius: 8px;
-
   font-family: inherit;
   font-size: 1em;
   font-weight: 500;
-
   transition: border-color 0.25s;
 }
 

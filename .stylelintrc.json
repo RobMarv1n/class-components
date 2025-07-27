@@ -1,7 +1,21 @@
 {
-  "extends": ["stylelint-config-standard", "stylelint-config-clean-order"],
+  "extends": ["stylelint-config-standard", "stylelint-config-tailwindcss"],
   "rules": {
     "selector-class-pattern": null,
-    "custom-property-empty-line-before": null
+    "custom-property-empty-line-before": null,
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": [
+          "tailwind",
+          "apply",
+          "theme",
+          "variants",
+          "responsive",
+          "screen"
+        ]
+      }
+    ],
+    "at-rule-no-deprecated": null
   }
 }
