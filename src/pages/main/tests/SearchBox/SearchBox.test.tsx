@@ -6,7 +6,7 @@ import SearchBox from '../../ui/SearchBox/SearchBox';
 describe('SearchBox', () => {
   test('Should render with initial query if provided', () => {
     render(<SearchBox onSearch={() => {}} initialQuery="pikachu" />);
-    const input = screen.getByPlaceholderText(/enter pokémon/i);
+    const input = screen.getByPlaceholderText(/enter character/i);
     expect(input).toHaveValue('pikachu');
   });
 
@@ -20,7 +20,7 @@ describe('SearchBox', () => {
     const onSearchMock = vi.fn();
     render(<SearchBox onSearch={onSearchMock} />);
 
-    const input = screen.getByPlaceholderText(/enter pokémon/i);
+    const input = screen.getByPlaceholderText(/enter character/i);
     const button = screen.getByRole('button', { name: /search/i });
 
     fireEvent.change(input, { target: { value: '  bulbasaur  ' } });
@@ -32,7 +32,7 @@ describe('SearchBox', () => {
 
   test('Should updates input value when typed', () => {
     render(<SearchBox onSearch={() => {}} />);
-    const input = screen.getByPlaceholderText(/enter pokémon/i);
+    const input = screen.getByPlaceholderText(/enter character/i);
 
     fireEvent.change(input, { target: { value: 'charizard' } });
     expect(input).toHaveValue('charizard');
