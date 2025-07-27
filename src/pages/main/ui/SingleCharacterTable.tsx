@@ -3,7 +3,7 @@ import type { SingleCharacterData } from '../../../shared/api/types/types';
 function SingleCharacterTable({ data }: SingleCharacterTableProps) {
   const { id, name, status, species, gender, image, origin, location } = data;
 
-  if (!name && !species && !status) {
+  if (!name && !species && !id) {
     return <p>Nothing was found</p>;
   }
 
