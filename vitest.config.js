@@ -18,6 +18,7 @@ export default mergeConfig(
           'src/index.{js,jsx,ts,tsx}',
           'src/setupTests.{js,ts}',
           'src/**/*.d.ts',
+          'src/**/mocks/*.{js,jsx,ts,tsx}',
         ],
         thresholds: {
           statements: 80,
