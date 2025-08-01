@@ -14,6 +14,7 @@ export function useCharactersSearch() {
   const [lastQuery, setLastQuery] = useLocalStorage(LAST_CHARACTER_SEARCH, '');
   const [searchParameters, setSearchParameters] = useSearchParams();
 
+  console.log(searchParameters);
   const handleSearch = useCallback(
     async (searchQuery: string, options?: { resetPage?: boolean }) => {
       setLastQuery(searchQuery);
@@ -28,8 +29,8 @@ export function useCharactersSearch() {
         const page = Number(newParameters.get('page')) || 1;
         const data = await getAllCharacters(searchQuery, page);
         setResult(data);
-      } catch (error_) {
-        setError(error_ instanceof Error ? error_.message : 'Unknown error');
+      } catch (error) {
+        setError(error instanceof Error ? error.message : 'Unknown error');
         setResult(null);
       } finally {
         setIsLoading(false);
@@ -40,7 +41,7 @@ export function useCharactersSearch() {
 
   useEffect(() => {
     handleSearch(lastQuery);
-  }, [lastQuery, searchParameters, handleSearch]);
+  }, [handleSearch, lastQuery]);
 
   return {
     result,
