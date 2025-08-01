@@ -2,9 +2,9 @@ import { useNavigate, Outlet } from 'react-router-dom';
 import { useCallback } from 'react';
 import Pagination from './ui/Pagination/Pagination';
 import SearchBox from './ui/SearchBox/SearchBox';
-import { AllCharactersTable } from './ui/AllCharactersTable';
 import { useCharactersSearch } from './hooks/useCharactersSearch';
 import Header from '../../widgets/ui/Header/Header';
+import AllCharactersTable from './ui/AllCharactersTable';
 
 export function MainPage() {
   const {
@@ -30,13 +30,6 @@ export function MainPage() {
     [setSearchParameters, navigate]
   );
 
-  const handleSelectCharacter = useCallback(
-    (id: number) => {
-      navigate(`/character/${id}?page=${currentPage}`);
-    },
-    [navigate, currentPage]
-  );
-
   const handleSearchWithReset = useCallback(
     (query: string) => handleSearch(query, { resetPage: true }),
     [handleSearch]
@@ -47,13 +40,7 @@ export function MainPage() {
       <Header />
       <SearchBox onSearch={handleSearchWithReset} initialQuery={lastQuery} />
       <div style={{ display: 'flex', width: 650, height: 700 }}>
-        {!isLoading && (
-          <AllCharactersTable
-            data={result}
-            error={error}
-            onSelectCharacter={handleSelectCharacter}
-          />
-        )}
+        <AllCharactersTable data={result} error={error} isLoading={isLoading} />
         <Outlet />
       </div>
       {totalPages > 1 && (

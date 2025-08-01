@@ -1,21 +1,19 @@
-import { useCallback } from 'react';
+import { memo } from 'react';
 import type {
   SingleCharacterData,
   AllCharactersData,
 } from '../../../shared/api/types/types';
 import DataUploadError from '../../../shared/ui/DataUploadError';
+import { useNavigate, useLocation } from 'react-router-dom';
+import Spinner from '../../../shared/ui/Spinner/Spinner';
 
-export function AllCharactersTable({
+function AllCharactersTable({
   data,
   error,
-  onSelectCharacter,
+  isLoading,
 }: AllCharactersTableProps) {
-  const getHandleSelect = useCallback(
-    (id: number) => () => {
-      onSelectCharacter?.(id);
-    },
-    [onSelectCharacter]
-  );
+  const navigate = useNavigate();
+  const location = useLocation();
 
   if (error) {
     return <DataUploadError message={error} />;
@@ -25,8 +23,12 @@ export function AllCharactersTable({
     return <p>Nothing was found</p>;
   }
 
+  if (isLoading && !data) {
+    return <Spinner />;
+  }
+
   return (
-    <table style={{ width: 350, height: '100%' }}>
+    <table style={{ width: 350, height: '100%', position: 'relative' }}>
       <thead>
         <tr>
           <th>Name</th>
@@ -38,7 +40,9 @@ export function AllCharactersTable({
         {data.results.map((character: SingleCharacterData) => (
           <tr
             key={character.id}
-            onClick={getHandleSelect(character.id)}
+            onClick={() => {
+              navigate(`/character/${character.id}/${location.search}`);
+            }}
             style={{ cursor: 'pointer' }}
           >
             <td>{character.name}</td>
@@ -54,5 +58,8 @@ export function AllCharactersTable({
 type AllCharactersTableProps = {
   data: AllCharactersData | null;
   error?: string | null;
+  isLoading?: boolean;
   onSelectCharacter?: (id: number) => void;
 };
+
+export default memo(AllCharactersTable);
