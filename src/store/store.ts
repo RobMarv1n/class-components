@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
+import selectionReducer from './slices/selectionSlice';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    selection: selectionReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
