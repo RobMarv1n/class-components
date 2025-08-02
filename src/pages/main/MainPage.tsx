@@ -5,6 +5,7 @@ import SearchBox from './ui/SearchBox/SearchBox';
 import { useCharactersSearch } from './hooks/useCharactersSearch';
 import Header from '../../widgets/ui/Header/Header';
 import AllCharactersTable from './ui/AllCharactersTable';
+import SelectionToolbar from './ui/SelectionToolbar/SelectionToolbar';
 
 export function MainPage() {
   const {
@@ -50,6 +51,7 @@ export function MainPage() {
           onPageChange={handlePageChange}
         />
       )}
+      <SelectionToolbar />
     </section>
   );
 }
