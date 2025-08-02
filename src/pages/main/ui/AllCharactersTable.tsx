@@ -6,6 +6,13 @@ import type {
 import DataUploadError from '../../../shared/ui/DataUploadError';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Spinner from '../../../shared/ui/Spinner/Spinner';
+import Input from '../../../shared/ui/Input/Input';
+import { toggleSelection } from '../../../store/slices/selectionSlice';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '../../../shared/hooks/reduxHooks';
+import { START_SEARCH_ENDPOINT } from '../../../shared/api/endpoints';
 
 function AllCharactersTable({
   data,
@@ -14,6 +21,10 @@ function AllCharactersTable({
 }: AllCharactersTableProps) {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useAppDispatch();
+  const selected = useAppSelector((state) => state.selection.selectedItems);
+
+  const isSelected = (id: number) => selected.some((item) => item.id === id);
 
   if (error) {
     return <DataUploadError message={error} />;
@@ -48,6 +59,22 @@ function AllCharactersTable({
             <td>{character.name}</td>
             <td>{character.status}</td>
             <td>{character.species}</td>
+            <td>
+              <Input
+                type="checkbox"
+                checked={isSelected(character.id)}
+                onChange={() =>
+                  dispatch(
+                    toggleSelection({
+                      id: character.id,
+                      name: character.name,
+                      description: character.status,
+                      detailUrl: `${START_SEARCH_ENDPOINT}${character.id}`,
+                    })
+                  )
+                }
+              />
+            </td>
           </tr>
         ))}
       </tbody>
