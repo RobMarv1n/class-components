@@ -5,6 +5,7 @@ import './app/styles/main.css';
 import ErrorBoundary from './app/providers/ErrorBoundary/ErrorBoundary.tsx';
 import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
+import { ThemeProvider } from './app/providers/ThemeProvider/ThemeProvider.tsx';
 
 const root = document.querySelector('#root');
 if (root) {
@@ -12,7 +13,9 @@ if (root) {
     <StrictMode>
       <ErrorBoundary>
         <Provider store={store}>
-          <App />
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
         </Provider>
       </ErrorBoundary>
     </StrictMode>
