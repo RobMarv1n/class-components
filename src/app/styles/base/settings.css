@@ -11,6 +11,16 @@
   font-synthesis: none;
 }
 
+[data-theme='dark'] {
+  --color-primary-bg: #303032;
+  --color-primary-text: #f0f0f0;
+}
+
+[data-theme='light'] {
+  --color-primary-bg: #f0f0f0;
+  --color-primary-text: #111;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
