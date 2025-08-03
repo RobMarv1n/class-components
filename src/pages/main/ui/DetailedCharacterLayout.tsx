@@ -27,8 +27,9 @@ export default function DetailedCharacterLayout() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  if (loading) return <Spinner />;
   if (!loading && !data) return <p>Character not found</p>;
+
+  if (loading) return <Spinner />;
 
   const handleClose = () => {
     navigate(`/?page=${page || 1}`);

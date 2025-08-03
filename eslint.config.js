@@ -40,6 +40,8 @@ export default tseslint.config(
       'unicorn/filename-case': 'off',
       'unicorn/no-null': 'off',
       'unicorn/explicit-length-check': 'off',
+      'unicorn/prefer-dom-node-dataset': 'off',
+      'unicorn/prefer-add-event-listener': 'off',
       'unicorn/prevent-abbreviations': [
         'error',
         {

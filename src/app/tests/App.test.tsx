@@ -1,6 +1,7 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { describe, test, expect } from 'vitest';
 import App from '../App';
+import { renderWithProviders } from '../../shared/mocks/renderFunctions';
 
 function setRoute(route: string) {
   globalThis.history.pushState({}, 'Test page', route);
@@ -9,25 +10,25 @@ function setRoute(route: string) {
 describe('App routing', () => {
   test('Should render MainPage on default route "/"', () => {
     setRoute('/');
-    render(<App />);
+    renderWithProviders(<App />);
     expect(screen.getByText(/home/i)).toBeDefined();
   });
 
   test('Should render DetailedCharacterLayout on route "/character/:id"', () => {
     setRoute('/character/123');
-    render(<App />);
+    renderWithProviders(<App />);
     expect(screen.getByText(/character/i)).toBeDefined();
   });
 
   test('Should render AboutPage on route "/about"', () => {
     setRoute('/about');
-    render(<App />);
+    renderWithProviders(<App />);
     expect(screen.getByText(/about/i)).toBeDefined();
   });
 
   test('Should render NotFoundPage on unknown route', () => {
     setRoute('/some/unknown/path');
-    render(<App />);
+    renderWithProviders(<App />);
     expect(screen.getByText(/not found/i)).toBeDefined();
   });
 });
