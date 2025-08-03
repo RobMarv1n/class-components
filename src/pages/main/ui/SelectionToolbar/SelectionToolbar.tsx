@@ -32,7 +32,6 @@ export default function SelectionToolbar() {
   return (
     <div
       style={{
-        marginTop: '2rem',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',

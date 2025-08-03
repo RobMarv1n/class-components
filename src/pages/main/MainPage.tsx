@@ -40,7 +40,7 @@ export function MainPage() {
     <section className="main-page">
       <Header />
       <SearchBox onSearch={handleSearchWithReset} initialQuery={lastQuery} />
-      <div style={{ display: 'flex', width: 650, height: 700 }}>
+      <div style={{ display: 'flex' }}>
         <AllCharactersTable data={result} error={error} isLoading={isLoading} />
         <Outlet />
       </div>

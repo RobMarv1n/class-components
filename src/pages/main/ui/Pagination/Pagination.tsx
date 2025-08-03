@@ -12,6 +12,7 @@ export default function Pagination({
       className="pagination-controls"
       style={{
         display: 'flex',
+        marginTop: '2rem',
         gap: '1rem',
         justifyContent: 'center',
         alignItems: 'end',

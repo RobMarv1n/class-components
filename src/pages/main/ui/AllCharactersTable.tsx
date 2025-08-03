@@ -39,7 +39,7 @@ function AllCharactersTable({
   }
 
   return (
-    <table style={{ width: 350, height: '100%', position: 'relative' }}>
+    <table style={{ position: 'relative', flexShrink: 0 }}>
       <thead>
         <tr>
           <th>Name</th>
@@ -62,6 +62,7 @@ function AllCharactersTable({
             <td>
               <Input
                 type="checkbox"
+                style={{ cursor: 'pointer', width: 20, height: 20, margin: 0 }}
                 checked={isSelected(character.id)}
                 onChange={() =>
                   dispatch(
