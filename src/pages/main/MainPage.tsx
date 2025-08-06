@@ -3,9 +3,9 @@ import { useCallback } from 'react';
 import Pagination from './ui/Pagination/Pagination';
 import SearchBox from './ui/SearchBox/SearchBox';
 import { useCharactersSearch } from './hooks/useCharactersSearch';
-import Header from '../../widgets/ui/Header/Header';
 import AllCharactersTable from './ui/AllCharactersTable';
 import SelectionToolbar from './ui/SelectionToolbar/SelectionToolbar';
+import Header from '../../shared/ui/Header/Header';
 
 export function MainPage() {
   const {
