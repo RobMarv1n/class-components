@@ -25,7 +25,6 @@ function SearchBox(props: SearchBoxProps) {
           onChange={handleChange}
           value={query}
           placeholder={placeholder || 'Enter character name'}
-          className={styles.searchInput}
         />
         <Button type="submit">Search</Button>
       </div>
