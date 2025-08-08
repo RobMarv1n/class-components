@@ -3,7 +3,7 @@ import { http, HttpResponse } from 'msw';
 export const handlers = [
   http.get('https://rickandmortyapi.com/api/character/:id', (request) => {
     const { id } = request.params;
-    console.log('MSW intercepted:', id);
+
     if (id === '1') {
       return HttpResponse.json({
         id: 1,
