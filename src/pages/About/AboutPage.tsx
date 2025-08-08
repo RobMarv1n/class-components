@@ -16,7 +16,7 @@ export default function AboutPage() {
         the Rick and Morty API).
       </p>
       <Link to="/">Go back to homepage</Link>
-      <Link to={'https://rs.school'} target="_blank">
+      <Link to={'https://rs.school'} target="_blank" rel="noopener noreferrer">
         <img src="/logo-rs.svg" alt="RS School Logo" width={120} height={62} />
       </Link>
     </div>
