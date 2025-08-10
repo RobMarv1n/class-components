@@ -1,34 +1,20 @@
-export function getVisiblePageNumbers(
-  currentPage: number,
-  totalPages: number
-): (number | string)[] {
-  const pageNumbers: (number | string)[] = [];
+import { isNumber } from '../../../../shared/utils/typeguards';
 
-  if (totalPages <= 7) {
-    for (let page = 1; page <= totalPages; page++) {
-      pageNumbers.push(page);
-    }
-  } else {
-    pageNumbers.push(1);
+export function getVisiblePageNumbers(currentPage: number, totalPages: number) {
+  const PAGES_AROUND = 2;
 
-    if (currentPage > 4) {
-      pageNumbers.push('...');
-    }
+  const pageNumbers: (number | undefined)[] = Array.from({ length: 5 })
+    .map((_, index) => index + currentPage - PAGES_AROUND)
+    .filter((element) => element > 1 && element < totalPages);
 
-    for (
-      let page = Math.max(2, currentPage - 2);
-      page <= Math.min(totalPages - 1, currentPage + 2);
-      page++
-    ) {
-      pageNumbers.push(page);
-    }
+  const firstVisiblePage = pageNumbers.at(0);
+  if (isNumber(firstVisiblePage) && firstVisiblePage > 2)
+    pageNumbers.unshift(undefined);
+  const lastVisiblePage = pageNumbers.at(-1);
+  if (isNumber(lastVisiblePage) && lastVisiblePage < totalPages - 1)
+    pageNumbers.push(undefined);
 
-    if (currentPage < totalPages - 3) {
-      pageNumbers.push('...');
-    }
+  const visiblePages = [1, ...pageNumbers, totalPages];
 
-    pageNumbers.push(totalPages);
-  }
-
-  return pageNumbers;
+  return visiblePages;
 }
