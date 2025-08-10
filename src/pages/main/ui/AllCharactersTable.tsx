@@ -3,7 +3,6 @@ import type {
   SingleCharacterData,
   AllCharactersData,
 } from '../../../shared/api/types/types';
-import DataUploadError from '../../../shared/ui/DataUploadError';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Spinner from '../../../shared/ui/Spinner/Spinner';
 import Input from '../../../shared/ui/Input/Input';
@@ -12,7 +11,8 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '../../../shared/hooks/reduxHooks';
-import { START_SEARCH_ENDPOINT } from '../../../shared/api/endpoints';
+import { BASE_API_PATH } from '../../../shared/api/endpoints';
+import DataUploadError from '../../../shared/ui/DataUploadError/DataUploadError';
 
 function AllCharactersTable({
   data,
@@ -27,7 +27,7 @@ function AllCharactersTable({
   const isSelected = (id: number) => selected.some((item) => item.id === id);
 
   if (error) {
-    return <DataUploadError message={error} />;
+    return <DataUploadError error={error} />;
   }
 
   if (!data || !data.results.length) {
@@ -70,7 +70,7 @@ function AllCharactersTable({
                       id: character.id,
                       name: character.name,
                       description: character.status,
-                      detailUrl: `${START_SEARCH_ENDPOINT}${character.id}`,
+                      detailUrl: `${BASE_API_PATH}${character.id}`,
                     })
                   )
                 }

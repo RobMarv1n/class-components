@@ -1,3 +1,4 @@
+import Button from '../../../../shared/ui/Button/Button';
 import { getVisiblePageNumbers } from './getVisiblePageNumbers';
 
 export default function Pagination({
@@ -8,35 +9,30 @@ export default function Pagination({
   const visiblePages = getVisiblePageNumbers(currentPageNumber, totalPageCount);
 
   return (
-    <div
-      className="pagination-controls"
-      style={{
-        display: 'flex',
-        marginTop: '2rem',
-        gap: '1rem',
-        justifyContent: 'center',
-        alignItems: 'end',
-      }}
-    >
-      {visiblePages.map((page, index) => {
-        if (typeof page === 'number') {
-          return (
-            <button
-              key={page}
-              onClick={() => onPageChange(page)}
-              className={page === currentPageNumber ? 'active' : ''}
-            >
-              {page}
-            </button>
-          );
-        }
-
-        return (
-          <span key={`ellipsis-${index}`} className="ellipsis">
+    <div className="flex mt-8 gap-2 justify-center items-end">
+      {visiblePages.map((page, index) =>
+        page ? (
+          <Button
+            key={page}
+            onClick={() => onPageChange(page)}
+            className={`px-3 py-1 rounded-md border transition-colors
+              ${
+                page === currentPageNumber
+                  ? 'bg-indigo-700 text-white shadow-inner cursor-default hover:shadow-none'
+                  : ''
+              }`}
+          >
+            {page}
+          </Button>
+        ) : (
+          <span
+            key={`ellipsis-${index}`}
+            className="px-2 text-gray-400 select-none"
+          >
             ...
           </span>
-        );
-      })}
+        )
+      )}
     </div>
   );
 }

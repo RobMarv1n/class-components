@@ -7,34 +7,52 @@ describe('getVisiblePageNumbers', () => {
   });
 
   test('Should display first pages and ellipsis when current page is near the beginning', () => {
-    expect(getVisiblePageNumbers(2, 10)).toEqual([1, 2, 3, 4, '...', 10]);
-    expect(getVisiblePageNumbers(4, 10)).toEqual([1, 2, 3, 4, 5, 6, '...', 10]);
+    expect(getVisiblePageNumbers(2, 10)).toEqual([1, 2, 3, 4, undefined, 10]);
+    expect(getVisiblePageNumbers(4, 10)).toEqual([
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      undefined,
+      10,
+    ]);
   });
 
   test('Should display ellipsis before and after when current page is in the middle', () => {
     expect(getVisiblePageNumbers(5, 10)).toEqual([
       1,
-      '...',
+      undefined,
       3,
       4,
       5,
       6,
       7,
-      '...',
+      undefined,
       10,
     ]);
   });
 
   test('Should display ellipsis and last pages when current page is near the end', () => {
-    expect(getVisiblePageNumbers(9, 10)).toEqual([1, '...', 7, 8, 9, 10]);
-    expect(getVisiblePageNumbers(10, 10)).toEqual([1, '...', 8, 9, 10]);
+    expect(getVisiblePageNumbers(9, 10)).toEqual([1, undefined, 7, 8, 9, 10]);
+    expect(getVisiblePageNumbers(10, 10)).toEqual([1, undefined, 8, 9, 10]);
   });
 
   test('Should handle correctly when current page is the first page', () => {
-    expect(getVisiblePageNumbers(1, 10)).toEqual([1, 2, 3, '...', 10]);
+    expect(getVisiblePageNumbers(1, 10)).toEqual([1, 2, 3, undefined, 10]);
   });
 
   test('Should handle correctly when total pages is eight', () => {
-    expect(getVisiblePageNumbers(4, 8)).toEqual([1, 2, 3, 4, 5, 6, '...', 8]);
+    expect(getVisiblePageNumbers(4, 8)).toEqual([
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      undefined,
+      8,
+    ]);
   });
 });

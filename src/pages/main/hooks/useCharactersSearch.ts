@@ -1,51 +1,56 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { getAllCharacters } from '../../../shared/api/service/api.service';
-import type { AllCharactersData } from '../../../shared/api/types/types';
 import useLocalStorage from '../../../shared/hooks/useLocalStorage';
+import { useGetAllCharactersQuery } from '../../../app/api/service/characters/character.service';
 
 const LAST_CHARACTER_SEARCH = '[LAST_CHARACTER_SEARCH]';
 
 export function useCharactersSearch() {
-  const [result, setResult] = useState<AllCharactersData | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
   const [lastQuery, setLastQuery] = useLocalStorage(LAST_CHARACTER_SEARCH, '');
   const [searchParameters, setSearchParameters] = useSearchParams();
+  const currentPage = useMemo(
+    () => Number(searchParameters.get('page')) || 1,
+    [searchParameters]
+  );
 
-  console.log(searchParameters);
+  const {
+    data: result,
+    error,
+    isLoading,
+  } = useGetAllCharactersQuery({
+    name: lastQuery,
+    page: currentPage,
+  });
+
   const handleSearch = useCallback(
-    async (searchQuery: string, options?: { resetPage?: boolean }) => {
-      setLastQuery(searchQuery);
-      const newParameters = new URLSearchParams(searchParameters);
-      if (options?.resetPage) newParameters.set('page', '1');
-
-      setSearchParameters(newParameters);
-      setError(null);
-      setIsLoading(true);
-
-      try {
-        const page = Number(newParameters.get('page')) || 1;
-        const data = await getAllCharacters(searchQuery, page);
-        setResult(data);
-      } catch (error) {
-        setError(error instanceof Error ? error.message : 'Unknown error');
-        setResult(null);
-      } finally {
-        setIsLoading(false);
+    async (searchQuery: string) => {
+      if (searchQuery !== lastQuery) {
+        setLastQuery(searchQuery);
+        setSearchParameters((previous) => {
+          const newParameters = new URLSearchParams(previous);
+          newParameters.set('page', '1');
+          newParameters.set('name', searchQuery);
+          return newParameters;
+        });
       }
     },
-    [searchParameters, setLastQuery, setSearchParameters]
+    [setLastQuery, setSearchParameters, lastQuery]
   );
+
+  const errorMessage =
+    error instanceof Error
+      ? error.message
+      : error
+        ? 'Failed to fetch character list'
+        : null;
 
   useEffect(() => {
     handleSearch(lastQuery);
   }, [handleSearch, lastQuery]);
 
   return {
-    result,
-    error,
+    result: result || null,
+    error: errorMessage,
     isLoading,
     lastQuery,
     currentPage: Number(searchParameters.get('page')) || 1,

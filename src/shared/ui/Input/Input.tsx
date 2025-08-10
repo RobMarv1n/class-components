@@ -1,8 +1,7 @@
 import { useId, type ComponentPropsWithoutRef } from 'react';
-import styles from './Input.module.css';
 
 function Input(props: InputProps) {
-  const { label, className = '', id, onClick, onChange, ...restProps } = props;
+  const { label, id, onClick, onChange, ...restProps } = props;
   const generatedId = useId();
   const inputId = id || generatedId;
 
@@ -17,19 +16,15 @@ function Input(props: InputProps) {
   };
 
   return (
-    <div className={className}>
+    <div className="">
       {label && (
-        <label
-          htmlFor={inputId}
-          className={`${styles.label} ${className || ''}`}
-        >
+        <label htmlFor={inputId} className="block mb-2 text-sm font-medium">
           {label}
         </label>
       )}
-
       <input
         id={inputId}
-        className={`${styles.input} ${className || ''}`}
+        className="bg-gray-50 border border-gray-300 text-black dark:bg-gray-700 dark:border-gray-600 dark:text-white px-4 py-2 rounded transition-colors focus:outline-none focus:ring"
         onClick={handleClick}
         onChange={handleChange}
         {...restProps}

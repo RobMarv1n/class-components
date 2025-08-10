@@ -1,34 +1,29 @@
-export function getVisiblePageNumbers(
-  currentPage: number,
-  totalPages: number
-): (number | string)[] {
-  const pageNumbers: (number | string)[] = [];
+import { isNumber } from '../../../../shared/utils/typeguards';
 
-  if (totalPages <= 7) {
-    for (let page = 1; page <= totalPages; page++) {
-      pageNumbers.push(page);
-    }
-  } else {
-    pageNumbers.push(1);
+const FULL_LIST_PAGE_LIMIT = 7;
+const PAGE_WINDOW_SIZE = 5;
+const PAGES_AROUND = 2;
+const LEFT_ELLIPSIS_THRESHOLD = 2;
 
-    if (currentPage > 4) {
-      pageNumbers.push('...');
-    }
-
-    for (
-      let page = Math.max(2, currentPage - 2);
-      page <= Math.min(totalPages - 1, currentPage + 2);
-      page++
-    ) {
-      pageNumbers.push(page);
-    }
-
-    if (currentPage < totalPages - 3) {
-      pageNumbers.push('...');
-    }
-
-    pageNumbers.push(totalPages);
+export function getVisiblePageNumbers(currentPage: number, totalPages: number) {
+  if (totalPages <= FULL_LIST_PAGE_LIMIT) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
   }
 
-  return pageNumbers;
+  const pageNumbers: (number | undefined)[] = Array.from({
+    length: PAGE_WINDOW_SIZE,
+  })
+    .map((_, index) => index + currentPage - PAGES_AROUND)
+    .filter((element) => element > 1 && element < totalPages);
+
+  const firstVisiblePage = pageNumbers.at(0);
+  if (isNumber(firstVisiblePage) && firstVisiblePage > LEFT_ELLIPSIS_THRESHOLD)
+    pageNumbers.unshift(undefined);
+  const lastVisiblePage = pageNumbers.at(-1);
+  if (isNumber(lastVisiblePage) && lastVisiblePage < totalPages - 1)
+    pageNumbers.push(undefined);
+
+  const visiblePages = [1, ...pageNumbers, totalPages];
+
+  return visiblePages;
 }

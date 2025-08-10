@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { START_SEARCH_ENDPOINT } from '../../../../shared/api/endpoints';
+import { BASE_API_PATH } from '../../../../shared/api/endpoints';
 import styles from './SearchBox.module.css';
 import Button from '../../../../shared/ui/Button/Button';
 import Input from '../../../../shared/ui/Input/Input';
@@ -20,12 +20,11 @@ function SearchBox(props: SearchBoxProps) {
   return (
     <form onSubmit={handleSubmit}>
       <div className={styles.searchBoxContainer}>
-        <p>{START_SEARCH_ENDPOINT}</p>
+        <p>{BASE_API_PATH}</p>
         <Input
           onChange={handleChange}
           value={query}
           placeholder={placeholder || 'Enter character name'}
-          className={styles.searchInput}
         />
         <Button type="submit">Search</Button>
       </div>

@@ -12,7 +12,8 @@
           "theme",
           "variants",
           "responsive",
-          "screen"
+          "screen",
+          "custom-variant"
         ]
       }
     ],

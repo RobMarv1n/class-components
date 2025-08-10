@@ -55,7 +55,8 @@ describe('Pagination component', () => {
     );
 
     const activeButton = screen.getByText('4');
-    expect(activeButton.classList.contains('active')).toBe(true);
+    expect(activeButton.classList.contains('bg-indigo-700')).toBe(true);
+    expect(activeButton.classList.contains('hover:shadow-none')).toBe(true);
   });
 
   it('Should call onPageChange with correct page number on button click', () => {
