@@ -2,6 +2,8 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import DetailedCharacterLayout from '../../ui/DetailedCharacterLayout';
 import { server } from '../../../../shared/mocks/server';
+import { Provider } from 'react-redux';
+import { store } from '../../../../store/store';
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
@@ -9,11 +11,13 @@ afterAll(() => server.close());
 
 function renderWithRouter(path: string) {
   return render(
-    <MemoryRouter initialEntries={[path]}>
-      <Routes>
-        <Route path="/character/:id" element={<DetailedCharacterLayout />} />
-      </Routes>
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter initialEntries={[path]}>
+        <Routes>
+          <Route path="/character/:id" element={<DetailedCharacterLayout />} />
+        </Routes>
+      </MemoryRouter>
+    </Provider>
   );
 }
 
@@ -36,7 +40,7 @@ describe('DetailedCharacterLayout', () => {
   test('Should render error text for server error', async () => {
     renderWithRouter('/character/500');
     await waitFor(() => {
-      expect(screen.getByText(/Character not found/i)).toBeInTheDocument(); // По умолчанию текст
+      expect(screen.getByText(/Internal Server Error/i)).toBeInTheDocument();
     });
   });
 });
