@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, test, expect, vi } from 'vitest';
-import { START_SEARCH_ENDPOINT } from '../../../../shared/api/endpoints';
+import { BASE_API_PATH } from '../../../../shared/api/endpoints';
 import SearchBox from '../../ui/SearchBox/SearchBox';
 
 describe('SearchBox', () => {
@@ -12,7 +12,7 @@ describe('SearchBox', () => {
 
   test('Should displays START_SEARCH_ENDPOINT text and empty input', () => {
     render(<SearchBox onSearch={() => {}} />);
-    expect(screen.getByText(START_SEARCH_ENDPOINT)).toBeInTheDocument();
+    expect(screen.getByText(BASE_API_PATH)).toBeInTheDocument();
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
