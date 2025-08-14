@@ -20,7 +20,8 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": true,
     "incremental": true,
-    "plugins": [{ "name": "next" }]
+    "plugins": [{ "name": "next" }],
+    "types": ["vitest/globals", "@testing-library/jest-dom"]
   },
   "include": ["./src", "./dist/types/**/*.ts", "./next-env.d.ts"],
   "exclude": ["./node_modules"]
