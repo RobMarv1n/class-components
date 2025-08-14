@@ -6,7 +6,6 @@ import { StrictMode } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
 import { ThemeProvider } from '../providers/ThemeProvider/ThemeProvider';
-import '../globals.css';
 
 const App = dynamic(() => import('../App'), { ssr: false });
 
