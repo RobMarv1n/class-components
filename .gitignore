@@ -27,3 +27,8 @@ coverage
 # Local Netlify folder
 .netlify
 .vercel
+
+# Next
+.next
+next-env.d.ts
+dist
