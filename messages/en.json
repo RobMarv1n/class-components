@@ -1,0 +1,12 @@
+{
+  "About": {
+    "title": "About This App",
+    "description": "This is a demo Single Page Application displaying characters (e.g. from the Rick and Morty API)",
+    "back": "Go back to homepage"
+  },
+  "NotFound": {
+    "title": "404 — Page Not Found",
+    "description": "Sorry, the page you're looking for does not exist.",
+    "back": "Go back to homepage"
+  }
+}
