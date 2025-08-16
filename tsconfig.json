@@ -23,6 +23,11 @@
     "plugins": [{ "name": "next" }],
     "types": ["vitest/globals", "@testing-library/jest-dom"]
   },
-  "include": ["./src", "./dist/types/**/*.ts", "./next-env.d.ts"],
+  "include": [
+    "./dist/types/**/*.ts",
+    "./next-env.d.ts",
+    "./src",
+    ".next/types/**/*.ts"
+  ],
   "exclude": ["./node_modules"]
 }
