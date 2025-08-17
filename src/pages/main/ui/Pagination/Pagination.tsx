@@ -9,7 +9,7 @@ export default function Pagination({
   const visiblePages = getVisiblePageNumbers(currentPageNumber, totalPageCount);
 
   return (
-    <div className="flex mt-8 gap-2 justify-center items-end">
+    <div className="flex flex-none mt-8 gap-2 justify-center items-end">
       {visiblePages.map((page, index) =>
         page ? (
           <Button
