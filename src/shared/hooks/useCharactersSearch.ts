@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
-import useLocalStorage from '../../../shared/hooks/useLocalStorage';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { useGetAllCharactersQuery } from '../../../shared/api/service/characters/character.service';
+import { useGetAllCharactersQuery } from '../api/service/characters/character.service';
+import useLocalStorage from './useLocalStorage';
 
 const LAST_CHARACTER_SEARCH = '[LAST_CHARACTER_SEARCH]';
 

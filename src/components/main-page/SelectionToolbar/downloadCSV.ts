@@ -1,4 +1,4 @@
-import { SelectedItem } from '../../../../store/slices/selectionSlice';
+import { SelectedItem } from '../../../store/slices/selectionSlice';
 
 export async function downloadCsv(
   selected: SelectedItem[],

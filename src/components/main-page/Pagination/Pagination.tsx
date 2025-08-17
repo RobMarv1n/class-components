@@ -1,4 +1,4 @@
-import Button from '../../../../shared/ui/Button/Button';
+import Button from '../../../shared/ui/Button/Button';
 import { getVisiblePageNumbers } from './getVisiblePageNumbers';
 
 export default function Pagination({

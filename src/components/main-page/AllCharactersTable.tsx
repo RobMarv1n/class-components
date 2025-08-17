@@ -1,18 +1,17 @@
+'use client';
+
+import { useSearchParams, useRouter } from 'next/navigation';
 import { memo } from 'react';
-import type {
+import { BASE_API_PATH } from '../../shared/api/endpoints';
+import {
   SingleCharacterData,
   AllCharactersData,
-} from '../../../shared/api/types/types';
-import { toggleSelection } from '../../../store/slices/selectionSlice';
-import {
-  useAppDispatch,
-  useAppSelector,
-} from '../../../shared/hooks/reduxHooks';
-import { BASE_API_PATH } from '../../../shared/api/endpoints';
-import DataUploadError from '../../../shared/ui/DataUploadError/DataUploadError';
-import { useSearchParams, useRouter } from 'next/navigation';
-import Spinner from '../../../shared/ui/Spinner/Spinner';
-import Input from '../../../shared/ui/Input/Input';
+} from '../../shared/api/types/types';
+import { useAppDispatch, useAppSelector } from '../../shared/hooks/reduxHooks';
+import DataUploadError from '../../shared/ui/DataUploadError/DataUploadError';
+import Spinner from '../../shared/ui/Spinner/Spinner';
+import { toggleSelection } from '../../store/slices/selectionSlice';
+import Input from '../../shared/ui/Input/Input';
 
 function AllCharactersTable({
   data,

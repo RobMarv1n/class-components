@@ -1,8 +1,8 @@
 import {
   useAppDispatch,
   useAppSelector,
-} from '../../../../shared/hooks/reduxHooks';
-import { clearSelection } from '../../../../store/slices/selectionSlice';
+} from '../../../shared/hooks/reduxHooks';
+import { clearSelection } from '../../../store/slices/selectionSlice';
 import { downloadCsv } from './downloadCSV';
 
 export default function SelectionToolbar() {

@@ -1,4 +1,4 @@
-import { isNumber } from '../../../../shared/utils/typeguards';
+import { isNumber } from '../../../shared/utils/typeguards';
 
 const FULL_LIST_PAGE_LIMIT = 7;
 const PAGE_WINDOW_SIZE = 5;

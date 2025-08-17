@@ -2,12 +2,12 @@
 
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useCallback } from 'react';
-import { useCharactersSearch } from '../../pages/main/hooks/useCharactersSearch';
-import AllCharactersTable from '../../pages/main/ui/AllCharactersTable';
-import Pagination from '../../pages/main/ui/Pagination/Pagination';
-import SearchBox from '../../pages/main/ui/SearchBox/SearchBox';
-import SelectionToolbar from '../../pages/main/ui/SelectionToolbar/SelectionToolbar';
 import DetailedCharacterLayout from './@details/character/[id]/page';
+import AllCharactersTable from '../../components/main-page/AllCharactersTable';
+import Pagination from '../../components/main-page/Pagination/Pagination';
+import SearchBox from '../../components/main-page/SearchBox/SearchBox';
+import SelectionToolbar from '../../components/main-page/SelectionToolbar/SelectionToolbar';
+import { useCharactersSearch } from '../../shared/hooks/useCharactersSearch';
 
 export default function MainPage() {
   const {

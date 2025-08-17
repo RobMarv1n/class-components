@@ -1,4 +1,4 @@
-import { getVisiblePageNumbers } from '../../../ui/Pagination/getVisiblePageNumbers';
+import { getVisiblePageNumbers } from '../../../../../components/main-page/Pagination/getVisiblePageNumbers';
 
 describe('getVisiblePageNumbers', () => {
   test('Should return all pages if total pages are seven or less', () => {

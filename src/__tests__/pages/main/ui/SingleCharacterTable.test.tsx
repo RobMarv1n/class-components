@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import type { SingleCharacterData } from '../../../../shared/api/types/types';
-import SingleCharacterTable from '../../ui/SingleCharacterTable';
+import SingleCharacterTable from '../../../../components/main-page/SingleCharacterTable';
 
 const baseCharacter: SingleCharacterData = {
   id: 1,

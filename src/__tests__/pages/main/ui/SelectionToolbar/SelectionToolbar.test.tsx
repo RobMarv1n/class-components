@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import * as reduxAppHooks from '../../../../../shared/hooks/reduxHooks';
-import SelectionToolbar from '../../../ui/SelectionToolbar/SelectionToolbar';
 import * as selectionSlice from '../../../../../store/slices/selectionSlice';
+import SelectionToolbar from '../../../../../components/main-page/SelectionToolbar/SelectionToolbar';
 
 vi.mock('file-saver', () => ({
   saveAs: vi.fn(),

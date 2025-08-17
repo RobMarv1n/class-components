@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { BASE_API_PATH } from '../../../../shared/api/endpoints';
-import Button from '../../../../shared/ui/Button/Button';
-import Input from '../../../../shared/ui/Input/Input';
+import { BASE_API_PATH } from '../../../shared/api/endpoints';
+import Button from '../../../shared/ui/Button/Button';
+import Input from '../../../shared/ui/Input/Input';
 
 function SearchBox(props: SearchBoxProps) {
   const { onSearch, placeholder, initialQuery } = props;
