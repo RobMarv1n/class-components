@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import '../globals.css';
 import { NextIntlClientProvider } from 'next-intl';
 import { Providers } from '../providers';
+import Header from '../../shared/ui/Header/Header';
 
 export const metadata: Metadata = {
   title: 'Rick and Morty Characters App',
@@ -22,7 +23,10 @@ export default async function LocaleLayout({
       <body>
         <NextIntlClientProvider>
           <Providers>
-            <main className="flex justify-center">{children}</main>
+            <div className="w-full shadow-md fixed top-0 left-0 z-50">
+              <Header />
+            </div>
+            <main className="flex justify-center mt-20">{children}</main>
             <aside>{details}</aside>
           </Providers>
         </NextIntlClientProvider>

@@ -7,7 +7,6 @@ import AllCharactersTable from '../../pages/main/ui/AllCharactersTable';
 import Pagination from '../../pages/main/ui/Pagination/Pagination';
 import SearchBox from '../../pages/main/ui/SearchBox/SearchBox';
 import SelectionToolbar from '../../pages/main/ui/SelectionToolbar/SelectionToolbar';
-import Header from '../../shared/ui/Header/Header';
 import DetailedCharacterLayout from './@details/character/[id]/page';
 
 export default function MainPage() {
@@ -34,8 +33,7 @@ export default function MainPage() {
   );
 
   return (
-    <section className="main-page">
-      <Header />
+    <section>
       <SearchBox onSearch={handleSearch} initialQuery={lastQuery} />
       <div className="flex">
         <AllCharactersTable data={result} error={error} isLoading={isLoading} />
