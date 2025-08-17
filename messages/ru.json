@@ -12,5 +12,18 @@
   "Header": {
     "home": "Домой",
     "about": "О нас"
+  },
+  "ResetCache": {
+    "title": "Сброс кэша"
+  },
+  "Search": {
+    "button": "Поиск",
+    "placeholder": "Введите имя персонажа"
+  },
+  "Table": {
+    "name": "Имя",
+    "status": "Статус",
+    "species": "Вид",
+    "select": "Выбрать"
   }
 }

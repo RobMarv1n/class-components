@@ -12,5 +12,18 @@
   "Header": {
     "home": "Home",
     "about": "About"
+  },
+  "ResetCache": {
+    "title": "Reset Cache"
+  },
+  "Search": {
+    "button": "Search",
+    "placeholder": "Enter character name"
+  },
+  "Table": {
+    "name": "Name",
+    "status": "Status",
+    "species": "Species",
+    "select": "Select"
   }
 }

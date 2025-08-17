@@ -12,6 +12,7 @@ import DataUploadError from '../../shared/ui/DataUploadError/DataUploadError';
 import Spinner from '../../shared/ui/Spinner/Spinner';
 import { toggleSelection } from '../../store/slices/selectionSlice';
 import Input from '../../shared/ui/Input/Input';
+import { useTranslations } from 'next-intl';
 
 function AllCharactersTable({
   data,
@@ -22,6 +23,7 @@ function AllCharactersTable({
   const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
   const selected = useAppSelector((state) => state.selection.selectedItems);
+  const t = useTranslations('Table');
 
   const isSelected = (id: number) => selected.some((item) => item.id === id);
 
@@ -44,10 +46,10 @@ function AllCharactersTable({
     <table className="relative m-3 flex-1 min-h-[600px] table-fixed">
       <thead>
         <tr>
-          <th className="w-[200px]">Name</th>
-          <th className="w-[100px]">Status</th>
-          <th className="w-[180px]">Species</th>
-          <th className="w-[50px]">Select</th>
+          <th className="w-[200px]">{t('name')}</th>
+          <th className="w-[100px]">{t('status')}</th>
+          <th className="w-[180px]">{t('species')}</th>
+          <th className="w-[50px]">{t('select')}</th>
         </tr>
       </thead>
       <tbody>

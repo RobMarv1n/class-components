@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import { BASE_API_PATH } from '../../../shared/api/endpoints';
 import Button from '../../../shared/ui/Button/Button';
 import Input from '../../../shared/ui/Input/Input';
+import { useTranslations } from 'next-intl';
 
 function SearchBox(props: SearchBoxProps) {
   const { onSearch, placeholder, initialQuery } = props;
   const [query, setQuery] = useState(initialQuery ?? '');
+  const t = useTranslations('Search');
 
   useEffect(() => {
     if (initialQuery !== undefined) {
@@ -29,10 +31,10 @@ function SearchBox(props: SearchBoxProps) {
         <Input
           onChange={handleChange}
           value={query}
-          placeholder={placeholder || 'Enter character name'}
+          placeholder={placeholder || t('placeholder')}
         />
         <Button type="submit" className="min-w-[100px]">
-          Search
+          {t('button')}
         </Button>
       </div>
     </form>
