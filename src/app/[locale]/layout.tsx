@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { Providers } from '../providers';
 import Header from '../../shared/ui/Header/Header';
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const metadata: Metadata = {
   title: 'Rick and Morty Characters App',
   description:
