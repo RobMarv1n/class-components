@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import selectionReducer from './slices/selectionSlice';
-import { baseService } from '../app/api/service/base.service';
+import { baseService } from '../shared/api/service/base.service';
 
 export const store = configureStore({
   reducer: {

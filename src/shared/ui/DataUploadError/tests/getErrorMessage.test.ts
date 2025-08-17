@@ -1,9 +1,9 @@
+import { describe, test, expect } from 'vitest';
 import { getErrorMessage, ErrorMessages } from '../getErrorMessage';
 
 describe('getErrorMessage', function () {
   test('Should return Unknown if error is null or undefined', function () {
     expect(getErrorMessage(null)).toBe(ErrorMessages.Unknown);
-    // eslint-disable-next-line unicorn/no-useless-undefined
     expect(getErrorMessage(undefined)).toBe(ErrorMessages.Unknown);
   });
 

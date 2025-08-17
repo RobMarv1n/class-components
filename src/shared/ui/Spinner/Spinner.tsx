@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import './Spinner.css';
 
 const Spinner = () => {
   const [useFallback, setUseFallback] = useState(false);
@@ -11,10 +10,19 @@ const Spinner = () => {
   }, []);
 
   return (
-    <div className="spinner-container" role="status" aria-label="Loading">
-      <div
-        className={`spinner-base ${useFallback ? 'spinner-fallback' : 'spinner-image'}`}
-      />
+    <div
+      className="flex items-center justify-center w-full h-full min-h-[200px]"
+      role="status"
+      aria-label="Loading"
+    >
+      {useFallback ? (
+        <div className="w-[60px] h-[60px] border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin" />
+      ) : (
+        <div
+          className="w-[60px] h-[60px] bg-center bg-no-repeat bg-contain animate-spin"
+          style={{ backgroundImage: "url('/portal.png')" }}
+        />
+      )}
     </div>
   );
 };

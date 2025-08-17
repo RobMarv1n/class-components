@@ -1,0 +1,33 @@
+{
+  "About": {
+    "title": "About This App",
+    "description": "This is a demo Single Page Application displaying characters (e.g. from the Rick and Morty API)",
+    "back": "Go back to homepage"
+  },
+  "NotFound": {
+    "title": "404 — Page Not Found",
+    "description": "Sorry, the page you're looking for does not exist.",
+    "back": "Go back to homepage"
+  },
+  "Header": {
+    "home": "Home",
+    "about": "About"
+  },
+  "ResetCache": {
+    "title": "Reset Cache"
+  },
+  "Search": {
+    "button": "Search",
+    "placeholder": "Enter character name"
+  },
+  "Table": {
+    "name": "Name",
+    "status": "Status",
+    "species": "Species",
+    "select": "Select"
+  },
+  "ErrorBoundary": {
+    "title": "Something went wrong",
+    "retry-button": "Try again"
+  }
+}
