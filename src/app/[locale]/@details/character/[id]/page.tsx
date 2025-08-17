@@ -2,8 +2,8 @@ import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import SingleCharacterTable from '../../../../../pages/main/ui/SingleCharacterTable';
 import DataUploadError from '../../../../../shared/ui/DataUploadError/DataUploadError';
 import Spinner from '../../../../../shared/ui/Spinner/Spinner';
-import { useGetSingleCharacterQuery } from '../../../../api/service/characters/character.service';
 import Button from '../../../../../shared/ui/Button/Button';
+import { useGetSingleCharacterQuery } from '../../../../../shared/api/service/characters/character.service';
 
 export default function DetailedCharacterLayout() {
   const searchParams = useSearchParams();

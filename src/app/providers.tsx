@@ -2,7 +2,7 @@
 
 import { Provider } from 'react-redux';
 import { store } from '../store/store';
-import { ThemeProvider } from './providers/ThemeProvider/ThemeProvider';
+import { ThemeProvider } from '../shared/providers/ThemeProvider/ThemeProvider';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (

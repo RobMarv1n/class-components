@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { BASE_API_PATH } from '../../../shared/api/endpoints';
+import { BASE_API_PATH } from '../endpoints';
 
 export const baseService = createApi({
   reducerPath: 'baseApiService',

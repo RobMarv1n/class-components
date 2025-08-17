@@ -1,9 +1,9 @@
 import { screen, fireEvent } from '@testing-library/dom';
 import { describe, test, expect } from 'vitest';
-import { characterApiService } from '../../../../app/api/service/characters/character.service';
-import { store } from '../../../../store/store';
 import { renderWithProviders } from '../../../mocks/renderFunctions';
 import ResetCacheButton from '../ResetCacheButton';
+import { characterApiService } from '../../../api/service/characters/character.service';
+import { store } from '../../../../store/store';
 
 describe('ResetCacheButton component', () => {
   test('Should clear RTK Query cache on reset cache button click', async () => {

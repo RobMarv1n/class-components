@@ -1,7 +1,4 @@
-import type {
-  AllCharactersData,
-  SingleCharacterData,
-} from '../../../../shared/api/types/types';
+import { AllCharactersData, SingleCharacterData } from '../../types/types';
 import { baseService } from '../base.service';
 
 export const characterApiService = baseService.injectEndpoints({
