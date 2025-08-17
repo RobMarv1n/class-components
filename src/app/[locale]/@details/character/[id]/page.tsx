@@ -20,7 +20,7 @@ export default function DetailedCharacterLayout() {
 
   if (isLoading)
     return (
-      <div className="flex-1 min-h-[calc(100vh-170px)]">
+      <div className="min-h-[calc(100vh-170px)]">
         <Spinner />
       </div>
     );
