@@ -33,9 +33,9 @@ export default function MainPage() {
   );
 
   return (
-    <section>
+    <section className="h-full flex flex-col">
       <SearchBox onSearch={handleSearch} initialQuery={lastQuery} />
-      <div className="flex">
+      <div className="flex flex-1">
         <AllCharactersTable data={result} error={error} isLoading={isLoading} />
         <DetailedCharacterLayout />
       </div>
