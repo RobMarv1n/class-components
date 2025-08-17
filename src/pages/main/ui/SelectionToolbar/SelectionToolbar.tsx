@@ -15,7 +15,7 @@ export default function SelectionToolbar() {
     dispatch(clearSelection());
   };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     downloadCsv(selected, `${selected.length}_items.csv`, [
       'id',
       'name',

@@ -1,16 +1,30 @@
-import { saveAs } from 'file-saver';
+import { SelectedItem } from '../../../../store/slices/selectionSlice';
 
-export function downloadCsv<T>(
-  items: T[],
+export async function downloadCsv(
+  selected: SelectedItem[],
   filename: string,
-  headers: (keyof T)[]
+  headers: string[]
 ) {
-  const csvRows = [
-    headers,
-    ...items.map((item) => headers.map((header) => String(item[header] ?? ''))),
-  ];
+  const res = await fetch('/api/csv-download', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      items: selected,
+      headers,
+      filename,
+    }),
+  });
 
-  const csvContent = csvRows.map((row) => row.join(',')).join('\n');
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-  saveAs(blob, filename);
+  if (!res.ok) {
+    console.error('Generation CSV error');
+    return;
+  }
+
+  const blob = await res.blob();
+  const url = globalThis.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  globalThis.URL.revokeObjectURL(url);
 }
