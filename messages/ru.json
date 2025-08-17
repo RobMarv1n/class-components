@@ -25,5 +25,9 @@
     "status": "Статус",
     "species": "Вид",
     "select": "Выбрать"
+  },
+  "ErrorBoundary": {
+    "title": "Что-то пошло не так",
+    "retry-button": "Попробовать еще раз"
   }
 }

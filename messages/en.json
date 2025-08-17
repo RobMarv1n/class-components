@@ -25,5 +25,9 @@
     "status": "Status",
     "species": "Species",
     "select": "Select"
+  },
+  "ErrorBoundary": {
+    "title": "Something went wrong",
+    "retry-button": "Try again"
   }
 }
