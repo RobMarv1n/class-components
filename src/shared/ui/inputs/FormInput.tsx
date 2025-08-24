@@ -18,14 +18,15 @@ function FormInput<T extends FieldValues>({
   errors,
   onChange,
   options,
-  ref,
+  inputRef,
   ...rest
 }: FormInputProps<T>) {
   const errorMessage = errors?.[name]
     ? getErrorMessage(errors[name])
     : undefined;
 
-  let inputProps: InputHTMLAttributes<HTMLInputElement>;
+  let inputProps: InputHTMLAttributes<HTMLInputElement> = { ...rest };
+
   if (register) {
     inputProps = { ...register(name, rules), ...rest };
 
@@ -33,7 +34,7 @@ function FormInput<T extends FieldValues>({
       inputProps.onChange = onChange;
     }
   } else {
-    inputProps = { ...rest, onChange };
+    inputProps.onChange = onChange;
   }
 
   const isCheckboxOrRadio = type === 'checkbox' || type === 'radio';
@@ -55,9 +56,10 @@ function FormInput<T extends FieldValues>({
         className={`flex items-center gap-2 ${isCheckboxOrRadio ? 'mt-1' : ''}`}
       >
         <input
-          id={String(name)}
+          id={`${String(name)}-${id}`}
+          name={String(name)}
           type={type}
-          ref={ref}
+          ref={inputRef}
           list={options ? listId : undefined}
           {...inputProps}
           className={`${
@@ -99,7 +101,7 @@ type FormInputProps<T extends FieldValues> = {
   errors?: FieldErrors<T> | Record<string, string>;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   options?: Option[];
-  ref?: React.Ref<HTMLInputElement>;
+  inputRef?: React.Ref<HTMLInputElement>;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 export default FormInput;
