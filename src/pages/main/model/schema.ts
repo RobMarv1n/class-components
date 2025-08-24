@@ -12,11 +12,17 @@ export const userSchema = yup.object({
     .number()
     .required('Age is required')
     .min(0, 'Age must be non-negative'),
-  email: yup.string().required('Email is required').email('Invalid email'),
+  email: yup
+    .string()
+    .required('Email is required')
+    .email('Expected format: user@example.com'),
   password: yup
     .string()
     .required('Password is required')
-    .matches(passwordRegex, 'Weak password'),
+    .matches(
+      passwordRegex,
+      'Password must contain at least 1 digit, 1 uppercase letter, 1 lowercase letter, and 1 special character.'
+    ),
   confirmPassword: yup
     .string()
     .required('Confirm password')
@@ -26,3 +32,5 @@ export const userSchema = yup.object({
   country: yup.string().required('Select country'),
   pictureBase64: yup.string().required('Picture is required'),
 });
+
+export type FormValues = yup.InferType<typeof userSchema>;
