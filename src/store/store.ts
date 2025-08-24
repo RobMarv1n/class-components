@@ -4,7 +4,7 @@ import { countryList } from '../shared/model/countryList';
 
 export type Option = { value: string; label: string };
 
-type FormStore = {
+export type FormStore = {
   hookFormData: UserFormData[];
   uncontrolledData: UserFormData[];
   countries: Option[];
