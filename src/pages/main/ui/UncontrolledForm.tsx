@@ -130,7 +130,7 @@ export default function UncontrolledForm({ onSuccess }: UncontrolledFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-4 w-full max-w-md"
+      className="flex flex-col gap-4 min-w-[500px] max-w-md"
     >
       <FormInput inputRef={nameRef} name="name" label="Name" errors={errors} />
       <FormInput

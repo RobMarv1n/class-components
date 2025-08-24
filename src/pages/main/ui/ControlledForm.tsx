@@ -73,7 +73,7 @@ export default function ControlledForm({ onSuccess }: ControlledFormProps) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-4 w-full max-w-md"
+      className="flex flex-col gap-4 min-w-[500px] max-w-md"
     >
       <FormInput name="name" label="Name" register={register} errors={errors} />
       <FormInput
