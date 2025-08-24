@@ -31,14 +31,17 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
       className="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
       onMouseDown={handleOverlayClick}
     >
-      <div className="bg-white rounded-2xl p-8 shadow-xl relative min-w-[300px]">
+      <div className="bg-white rounded-2xl shadow-xl relative min-w-[300px] max-h-[100vh] overflow-hidden">
         <button
           onClick={onClose}
           className="absolute top-3 right-4 text-black hover:text-gray-500 cursor-pointer"
         >
           ✕
         </button>
-        {children}
+
+        <div className="p-8 max-h-[100vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+          {children}
+        </div>
       </div>
     </div>,
     document.body
