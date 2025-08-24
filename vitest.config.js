@@ -21,6 +21,7 @@ export default mergeConfig(
           'src/**/mocks/*.{js,jsx,ts,tsx}',
           'src/**/types/*.{js,jsx,ts,tsx}',
           'src/main.tsx',
+          'src/**/model/*.{js,jsx,ts,tsx}',
         ],
         thresholds: {
           statements: 80,
