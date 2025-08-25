@@ -10,11 +10,12 @@ describe('UncontrolledForm', () => {
   const mockOnSuccess = vi.fn();
   const mockAddControlledFormFormData = vi.fn();
   const mockCountries = ['USA', 'Russia', 'Germany'];
+  const mockedUseFormStore = vi.mocked(useFormStore);
 
   beforeEach(() => {
     vi.clearAllMocks();
 
-    (useFormStore as any).mockImplementation(() => ({
+    mockedUseFormStore.mockImplementation(() => ({
       countries: mockCountries,
       addControlledFormFormData: mockAddControlledFormFormData,
     }));
