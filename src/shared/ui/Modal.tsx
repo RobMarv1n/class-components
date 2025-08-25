@@ -35,6 +35,7 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
         <button
           onClick={onClose}
           className="absolute top-3 right-4 text-black hover:text-gray-500 cursor-pointer"
+          data-testid="close-modal"
         >
           ✕
         </button>
