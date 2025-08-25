@@ -131,7 +131,7 @@ export default function ControlledForm({ onSuccess }: ControlledFormProps) {
             value="male"
             register={register}
             errors={errors}
-          />{' '}
+          />
           Male
         </label>
         <label className="flex items-center gap-2">
@@ -141,7 +141,7 @@ export default function ControlledForm({ onSuccess }: ControlledFormProps) {
             value="female"
             register={register}
             errors={errors}
-          />{' '}
+          />
           Female
         </label>
         {errors.gender && (
