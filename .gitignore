@@ -24,4 +24,6 @@ coverage
 *.sln
 *.sw?
 
-.env
+# Local Netlify folder
+.netlify
+.vercel
