@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+body {
+  @apply min-h-screen m-0 font-sans flex items-center justify-center bg-gray-100 text-gray-900 dark:bg-zinc-800 dark:text-neutral-100 transition-all duration-150 ease-in-out;
+}
+
+@layer components {
+  .btn-primary {
+    @apply rounded-lg px-4 py-2 font-bold bg-indigo-500 text-gray-200 cursor-pointer;
+
+    &:hover {
+      @media (hover: hover) {
+        background-color: #6366f1;
+        box-shadow:
+          0 0 5px 0 #6366f1 inset,
+          0 0 5px 2px #6366f1;
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "name": "forms",
+  "name": "performance",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,7 +11,7 @@
     "stylelint": "npx stylelint ./src/**/*.{css,scss}",
     "format:fix": "prettier --write .",
     "prepare": "husky",
-    "deploy": "npm run build && npx gh-pages -d dist -e forms",
+    "deploy": "npm run build && npx gh-pages -d dist -e performance",
     "test": "vitest",
     "coverage": "vitest run --coverage"
   },
