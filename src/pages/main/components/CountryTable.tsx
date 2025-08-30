@@ -6,6 +6,7 @@ export default function CountryTable() {
   const [displayed, setDisplayed] = useState<CountryData[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [selectedYear, setSelectedYear] = useState<number>(2022);
   const perPage = 50;
   const loaderRef = useRef<HTMLDivElement>(null);
 
@@ -28,7 +29,7 @@ export default function CountryTable() {
         setCountries(normalized);
         setDisplayed(normalized.slice(0, perPage));
       } catch (err) {
-        console.error('Download error:', err);
+        console.error('Failed to load data:', err);
       } finally {
         setLoading(false);
       }
@@ -69,14 +70,27 @@ export default function CountryTable() {
 
   return (
     <div className="min-h-screen flex flex-col items-stretch bg-gray-950">
-      <div className="sticky top-0 bg-gray-900 z-30 p-3 shadow-md">
+      <div className="sticky top-0 bg-gray-900 z-30 p-3 shadow-md flex gap-2">
         <input
           type="text"
           placeholder="🔍 Search country..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full p-2 rounded-md bg-gray-800 text-gray-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-1 p-2 rounded-md bg-gray-800 text-gray-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+        <select
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(Number(e.target.value))}
+          className="p-2 rounded-md bg-gray-800 text-gray-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          {Array.from({ length: 2023 - 1750 + 1 }, (_, i) => 1750 + i).map(
+            (year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            )
+          )}
+        </select>
       </div>
 
       {loading ? (
@@ -116,7 +130,7 @@ export default function CountryTable() {
               ) : (
                 displayed.map((country) =>
                   country.data
-                    .filter((row) => row.year === 2015)
+                    .filter((row) => row.year === selectedYear)
                     .map((row) => (
                       <tr
                         key={`${country.country}-${row.year}`}
