@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import { SkeletonTable } from './SkeletonTable';
+import { SkeletonTable } from '../../../shared/ui/SkeletonTable';
 
 const CountryTable = lazy(() => import('./CountryTable'));
 

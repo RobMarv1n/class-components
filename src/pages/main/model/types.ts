@@ -18,3 +18,9 @@ export type RawCountryData = {
 };
 
 export type FullData = Record<string, RawCountryData>;
+
+export type SortOption =
+  | 'name-asc'
+  | 'name-desc'
+  | 'population-asc'
+  | 'population-desc';

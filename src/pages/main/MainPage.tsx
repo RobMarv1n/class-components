@@ -1,4 +1,4 @@
-import CountryTableWrapper from './components/CountryTableWrapper';
+import CountryTableWrapper from './ui/CountryTableWrapper';
 
 export default function MainPage() {
   return <CountryTableWrapper />;
