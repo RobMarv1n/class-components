@@ -16,7 +16,6 @@ type SortOption =
 
 export default function CountryTable() {
   const [allCountries, setAllCountries] = useState<CountryData[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedYear, setSelectedYear] = useState<number>(2023);
   const [sortOption, setSortOption] = useState<SortOption>('name-asc');
@@ -44,11 +43,8 @@ export default function CountryTable() {
         setAllCountries(normalizedCountries);
       } catch (error) {
         console.error('Failed to load data:', error);
-      } finally {
-        setIsLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
@@ -113,7 +109,7 @@ export default function CountryTable() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-950">
+    <div className="min-h-screen flex flex-col bg-gray-950 min-w-[900px]">
       <div className="sticky top-0 z-30 bg-gray-900 shadow-md p-3 flex gap-2">
         <input
           type="text"
@@ -154,90 +150,84 @@ export default function CountryTable() {
         </button>
       </div>
 
-      {isLoading ? (
-        <div className="p-4 text-gray-400 italic">⏳ Loading table...</div>
-      ) : (
-        <div className="flex-1 overflow-auto">
-          <table className="min-w-full border border-gray-700 text-sm text-gray-100 border-separate">
-            <thead className="bg-gray-900 sticky top-0 z-20">
+      <div className="flex-1 overflow-auto min-w-[900px]">
+        <table className="min-w-full border border-gray-700 text-sm text-gray-100 border-separate">
+          <thead className="bg-gray-900 sticky top-0 z-20">
+            <tr>
+              <th className="px-3 py-2 border border-gray-700 w-24">ISO</th>
+              <th className="px-3 py-2 border border-gray-700 w-48">Country</th>
+              <th className="px-3 py-2 border border-gray-700 w-20">Year</th>
+              <th className="px-3 py-2 border border-gray-700 w-40">
+                Population
+              </th>
+              <th className="px-3 py-2 border border-gray-700 w-40">CO₂</th>
+              <th className="px-3 py-2 border border-gray-700 w-40">
+                CO₂ per capita
+              </th>
+              {extraColumns.map((fieldKey) => (
+                <th
+                  key={fieldKey}
+                  className="px-3 py-2 border border-gray-700 w-40"
+                >
+                  {EXTRA_FIELDS.find((field) => field.key === fieldKey)
+                    ?.label ?? fieldKey}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {visibleCountries.length === 0 ? (
               <tr>
-                <th className="px-3 py-2 border border-gray-700 w-24">ISO</th>
-                <th className="px-3 py-2 border border-gray-700 w-48">
-                  Country
-                </th>
-                <th className="px-3 py-2 border border-gray-700 w-20">Year</th>
-                <th className="px-3 py-2 border border-gray-700 w-40">
-                  Population
-                </th>
-                <th className="px-3 py-2 border border-gray-700 w-40">CO₂</th>
-                <th className="px-3 py-2 border border-gray-700 w-40">
-                  CO₂ per capita
-                </th>
-                {extraColumns.map((fieldKey) => (
-                  <th
-                    key={fieldKey}
-                    className="px-3 py-2 border border-gray-700 w-40"
-                  >
-                    {EXTRA_FIELDS.find((field) => field.key === fieldKey)
-                      ?.label ?? fieldKey}
-                  </th>
-                ))}
+                <td
+                  colSpan={6 + extraColumns.length}
+                  className="text-center py-6 text-gray-400"
+                >
+                  No data available
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {visibleCountries.length === 0 ? (
-                <tr>
-                  <td
-                    colSpan={6 + extraColumns.length}
-                    className="text-center py-6 text-gray-400"
-                  >
-                    No data available
-                  </td>
-                </tr>
-              ) : (
-                visibleCountries.map((country) =>
-                  country.data
-                    .filter((entry) => entry.year === selectedYear)
-                    .map((entry) => (
-                      <tr
-                        key={`${country.country}-${entry.year}`}
-                        className="odd:bg-gray-800 even:bg-gray-700 hover:bg-gray-600 transition-colors"
-                      >
-                        <td className="px-3 py-2 border border-gray-700 truncate">
-                          {country.iso_code ?? 'N/A'}
+            ) : (
+              visibleCountries.map((country) =>
+                country.data
+                  .filter((entry) => entry.year === selectedYear)
+                  .map((entry) => (
+                    <tr
+                      key={`${country.country}-${entry.year}`}
+                      className="odd:bg-gray-800 even:bg-gray-700 hover:bg-gray-600 transition-colors"
+                    >
+                      <td className="px-3 py-2 border border-gray-700 truncate">
+                        {country.iso_code ?? 'N/A'}
+                      </td>
+                      <td className="px-3 py-2 border border-gray-700 truncate">
+                        {country.country}
+                      </td>
+                      <td className="px-3 py-2 border border-gray-700">
+                        {entry.year}
+                      </td>
+                      <td className="px-3 py-2 border border-gray-700 truncate">
+                        {entry.population ?? 'N/A'}
+                      </td>
+                      <td className="px-3 py-2 border border-gray-700 truncate">
+                        {entry.co2 ?? 'N/A'}
+                      </td>
+                      <td className="px-3 py-2 border border-gray-700 truncate">
+                        {entry.co2_per_capita ?? 'N/A'}
+                      </td>
+                      {extraColumns.map((fieldKey) => (
+                        <td
+                          key={fieldKey}
+                          className="px-3 py-2 border border-gray-700 truncate"
+                        >
+                          {entry[fieldKey as keyof typeof entry] ?? 'N/A'}
                         </td>
-                        <td className="px-3 py-2 border border-gray-700 truncate">
-                          {country.country}
-                        </td>
-                        <td className="px-3 py-2 border border-gray-700">
-                          {entry.year}
-                        </td>
-                        <td className="px-3 py-2 border border-gray-700 truncate">
-                          {entry.population ?? 'N/A'}
-                        </td>
-                        <td className="px-3 py-2 border border-gray-700 truncate">
-                          {entry.co2 ?? 'N/A'}
-                        </td>
-                        <td className="px-3 py-2 border border-gray-700 truncate">
-                          {entry.co2_per_capita ?? 'N/A'}
-                        </td>
-                        {extraColumns.map((fieldKey) => (
-                          <td
-                            key={fieldKey}
-                            className="px-3 py-2 border border-gray-700 truncate"
-                          >
-                            {(entry as any)[fieldKey] ?? 'N/A'}
-                          </td>
-                        ))}
-                      </tr>
-                    ))
-                )
-              )}
-            </tbody>
-          </table>
-          <div ref={loaderReference} className="h-10"></div>
-        </div>
-      )}
+                      ))}
+                    </tr>
+                  ))
+              )
+            )}
+          </tbody>
+        </table>
+        <div ref={loaderReference} className="h-10"></div>
+      </div>
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">

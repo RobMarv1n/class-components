@@ -1,5 +1,5 @@
-import CountryTable from './components/CountryTable';
+import CountryTableWrapper from './components/CountryTableWrapper';
 
 export default function MainPage() {
-  return <CountryTable />;
+  return <CountryTableWrapper />;
 }
