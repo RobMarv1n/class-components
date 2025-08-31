@@ -8,78 +8,107 @@ const EXTRA_FIELDS = [
   { key: 'temperature_change_from_co2', label: 'Temp change from CO₂' },
 ];
 
-export default function CountryTable() {
-  const [countries, setCountries] = useState<CountryData[]>([]);
-  const [displayed, setDisplayed] = useState<CountryData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
-  const [selectedYear, setSelectedYear] = useState<number>(2015);
-  const [showModal, setShowModal] = useState(false);
-  const [extraFields, setExtraFields] = useState<string[]>([]);
+type SortOption =
+  | 'name-asc'
+  | 'name-desc'
+  | 'population-asc'
+  | 'population-desc';
 
-  const perPage = 50;
-  const loaderRef = useRef<HTMLDivElement>(null);
+export default function CountryTable() {
+  const [allCountries, setAllCountries] = useState<CountryData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedYear, setSelectedYear] = useState<number>(2023);
+  const [sortOption, setSortOption] = useState<SortOption>('name-asc');
+  const [extraColumns, setExtraColumns] = useState<string[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const loaderReference = useRef<HTMLDivElement>(null);
+  const itemsPerPage = 50;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(
+        const response = await fetch(
           'https://1arseniy.github.io/dataCountries/co2-data.json'
         );
-        const raw = await res.json();
-        const normalized: CountryData[] = Object.entries(raw as FullData).map(
-          ([countryName, data]) => ({
-            country: countryName,
-            iso_code: data.iso_code,
-            data: data.data || [],
-          })
-        );
-
-        setCountries(normalized);
-        setDisplayed(normalized.slice(0, perPage));
-      } catch (err) {
-        console.error('Failed to load data:', err);
+        const rawData = await response.json();
+        const normalizedCountries: CountryData[] = Object.entries(
+          rawData as FullData
+        ).map(([countryName, countryData]) => ({
+          country: countryName,
+          iso_code: countryData.iso_code,
+          data: countryData.data || [],
+        }));
+        setAllCountries(normalizedCountries);
+      } catch (error) {
+        console.error('Failed to load data:', error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
-  const filteredCountries = countries.filter((c) =>
-    c.country.toLowerCase().includes(search.toLowerCase())
+  const filteredCountries = allCountries.filter((country) =>
+    country.country.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const sortedCountries = [...filteredCountries].sort((countryA, countryB) => {
+    if (sortOption.startsWith('name')) {
+      return sortOption === 'name-asc'
+        ? countryA.country.localeCompare(countryB.country)
+        : countryB.country.localeCompare(countryA.country);
+    } else {
+      const populationA =
+        countryA.data.find((entry) => entry.year === selectedYear)
+          ?.population ?? 0;
+      const populationB =
+        countryB.data.find((entry) => entry.year === selectedYear)
+          ?.population ?? 0;
+      return sortOption === 'population-asc'
+        ? populationA - populationB
+        : populationB - populationA;
+    }
+  });
+
+  const visibleCountries = sortedCountries.slice(0, currentPage * itemsPerPage);
+
   useEffect(() => {
-    setDisplayed(filteredCountries.slice(0, perPage));
-  }, [search, countries]);
+    setCurrentPage(1);
+  }, [searchQuery, sortOption, selectedYear]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          setDisplayed((prev) => {
-            if (prev.length >= filteredCountries.length) return prev;
-            const nextData = filteredCountries.slice(
-              prev.length,
-              prev.length + perPage
-            );
-            return [...prev, ...nextData];
+          setCurrentPage((previousPage) => {
+            if (previousPage * itemsPerPage >= sortedCountries.length) {
+              return previousPage;
+            }
+            return previousPage + 1;
           });
         }
       },
       { threshold: 0.1 }
     );
-    if (loaderRef.current) observer.observe(loaderRef.current);
+    if (loaderReference.current) {
+      observer.observe(loaderReference.current);
+    }
     return () => {
-      if (loaderRef.current) observer.unobserve(loaderRef.current);
+      if (loaderReference.current) {
+        observer.unobserve(loaderReference.current);
+      }
     };
-  }, [filteredCountries]);
+  }, [sortedCountries]);
 
-  const toggleExtraField = (field: string) => {
-    setExtraFields((prev) =>
-      prev.includes(field) ? prev.filter((f) => f !== field) : [...prev, field]
+  const toggleExtraColumn = (fieldKey: string) => {
+    setExtraColumns((previousColumns) =>
+      previousColumns.includes(fieldKey)
+        ? previousColumns.filter((field) => field !== fieldKey)
+        : [...previousColumns, fieldKey]
     );
   };
 
@@ -89,37 +118,48 @@ export default function CountryTable() {
         <input
           type="text"
           placeholder="🔍 Search country..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          value={searchQuery}
+          onChange={(event) => setSearchQuery(event.target.value)}
           className="flex-1 p-2 rounded-md bg-gray-800 text-gray-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <select
-          value={selectedYear}
-          onChange={(e) => setSelectedYear(Number(e.target.value))}
-          className="p-2 rounded-md bg-gray-800 text-gray-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={sortOption}
+          onChange={(event) => setSortOption(event.target.value as SortOption)}
+          className="p-2 rounded-md bg-gray-800 text-gray-100 border border-gray-600"
         >
-          {Array.from({ length: 2022 - 1750 + 1 }, (_, i) => 1750 + i).map(
-            (year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            )
-          )}
+          <option value="name-asc">Name ↑</option>
+          <option value="name-desc">Name ↓</option>
+          <option value="population-asc">Population ↑</option>
+          <option value="population-desc">Population ↓</option>
+        </select>
+        <select
+          value={selectedYear}
+          onChange={(event) => setSelectedYear(Number(event.target.value))}
+          className="p-2 rounded-md bg-gray-800 text-gray-100 border border-gray-600"
+        >
+          {Array.from(
+            { length: 2023 - 1750 + 1 },
+            (_, index) => 1750 + index
+          ).map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
         </select>
         <button
-          onClick={() => setShowModal(true)}
+          onClick={() => setIsModalOpen(true)}
           className="px-4 py-2 rounded-md bg-blue-700 text-white hover:bg-blue-600 cursor-pointer"
         >
           ⚙️ Extra columns
         </button>
       </div>
 
-      {loading ? (
+      {isLoading ? (
         <div className="p-4 text-gray-400 italic">⏳ Loading table...</div>
       ) : (
-        <>
+        <div className="flex-1 overflow-auto">
           <table className="min-w-full border border-gray-700 text-sm text-gray-100 border-separate">
-            <thead className="bg-gray-900 z-20">
+            <thead className="bg-gray-900 sticky top-0 z-20">
               <tr>
                 <th className="px-3 py-2 border border-gray-700 w-24">ISO</th>
                 <th className="px-3 py-2 border border-gray-700 w-48">
@@ -133,33 +173,34 @@ export default function CountryTable() {
                 <th className="px-3 py-2 border border-gray-700 w-40">
                   CO₂ per capita
                 </th>
-                {extraFields.map((field) => (
+                {extraColumns.map((fieldKey) => (
                   <th
-                    key={field}
+                    key={fieldKey}
                     className="px-3 py-2 border border-gray-700 w-40"
                   >
-                    {EXTRA_FIELDS.find((f) => f.key === field)?.label ?? field}
+                    {EXTRA_FIELDS.find((field) => field.key === fieldKey)
+                      ?.label ?? fieldKey}
                   </th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {displayed.length === 0 ? (
+              {visibleCountries.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={6 + extraFields.length}
+                    colSpan={6 + extraColumns.length}
                     className="text-center py-6 text-gray-400"
                   >
                     No data available
                   </td>
                 </tr>
               ) : (
-                displayed.map((country) =>
+                visibleCountries.map((country) =>
                   country.data
-                    .filter((row) => row.year === selectedYear)
-                    .map((row) => (
+                    .filter((entry) => entry.year === selectedYear)
+                    .map((entry) => (
                       <tr
-                        key={`${country.country}-${row.year}`}
+                        key={`${country.country}-${entry.year}`}
                         className="odd:bg-gray-800 even:bg-gray-700 hover:bg-gray-600 transition-colors"
                       >
                         <td className="px-3 py-2 border border-gray-700 truncate">
@@ -169,23 +210,23 @@ export default function CountryTable() {
                           {country.country}
                         </td>
                         <td className="px-3 py-2 border border-gray-700">
-                          {row.year}
+                          {entry.year}
                         </td>
                         <td className="px-3 py-2 border border-gray-700 truncate">
-                          {row.population ?? 'N/A'}
+                          {entry.population ?? 'N/A'}
                         </td>
                         <td className="px-3 py-2 border border-gray-700 truncate">
-                          {row.co2 ?? 'N/A'}
+                          {entry.co2 ?? 'N/A'}
                         </td>
                         <td className="px-3 py-2 border border-gray-700 truncate">
-                          {row.co2_per_capita ?? 'N/A'}
+                          {entry.co2_per_capita ?? 'N/A'}
                         </td>
-                        {extraFields.map((field) => (
+                        {extraColumns.map((fieldKey) => (
                           <td
-                            key={field}
+                            key={fieldKey}
                             className="px-3 py-2 border border-gray-700 truncate"
                           >
-                            {(row as any)[field] ?? 'N/A'}
+                            {(entry as any)[fieldKey] ?? 'N/A'}
                           </td>
                         ))}
                       </tr>
@@ -194,33 +235,33 @@ export default function CountryTable() {
               )}
             </tbody>
           </table>
-          <div ref={loaderRef} className="h-10"></div>
-        </>
+          <div ref={loaderReference} className="h-10"></div>
+        </div>
       )}
 
-      {showModal && (
+      {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
           <div className="bg-gray-800 rounded-lg p-6 w-96 shadow-lg">
             <h2 className="text-lg text-white mb-4">Select extra columns</h2>
             <div className="space-y-2 max-h-64 overflow-y-auto">
-              {EXTRA_FIELDS.map((f) => (
+              {EXTRA_FIELDS.map((field) => (
                 <label
-                  key={f.key}
+                  key={field.key}
                   className="flex items-center gap-2 text-gray-200"
                 >
                   <input
                     type="checkbox"
                     className="w-4 h-4 cursor-pointer"
-                    checked={extraFields.includes(f.key)}
-                    onChange={() => toggleExtraField(f.key)}
+                    checked={extraColumns.includes(field.key)}
+                    onChange={() => toggleExtraColumn(field.key)}
                   />
-                  {f.label}
+                  {field.label}
                 </label>
               ))}
             </div>
             <div className="mt-4 flex justify-end gap-2">
               <button
-                onClick={() => setShowModal(false)}
+                onClick={() => setIsModalOpen(false)}
                 className="px-4 py-2 rounded-md bg-gray-600 text-white hover:bg-gray-500 cursor-pointer"
               >
                 Ok
