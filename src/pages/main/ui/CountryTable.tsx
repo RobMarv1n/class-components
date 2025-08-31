@@ -5,6 +5,7 @@ import TableRow from './TableRow';
 import TableColumnsHeader from './TableColumnsHeader';
 import type { CountryData, FullData, SortOption } from '../model/types';
 import { BASE_URL } from '../model/constants';
+import { SkeletonTableBody } from '../../../shared/ui/SkeletonTableBody';
 
 const EXTRA_FIELDS = [
   { key: 'cement_co2', label: 'Cement CO₂' },
@@ -23,6 +24,7 @@ export default function CountryTable() {
   const [highlightedCells, setHighlightedCells] = useState<
     Record<string, boolean>
   >({});
+  const [isLoading, setIsLoading] = useState(true);
 
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const loaderReference = useRef<HTMLDivElement>(null);
@@ -48,6 +50,8 @@ export default function CountryTable() {
         setAllCountries(normalizedCountries);
       } catch (error) {
         console.error('Failed to load data:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchCountriesData();
@@ -176,6 +180,7 @@ export default function CountryTable() {
   );
 
   const tableRows = useMemo(() => {
+    if (isLoading) return null;
     if (visibleCountries.length === 0) {
       return (
         <tr>
@@ -201,10 +206,16 @@ export default function CountryTable() {
           />
         ))
     );
-  }, [visibleCountries, selectedYear, extraColumns, highlightedCells]);
+  }, [
+    isLoading,
+    visibleCountries,
+    selectedYear,
+    extraColumns,
+    highlightedCells,
+  ]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-950 min-w-[900px]">
+    <div className="min-h-screen m-0 flex flex-col bg-gray-950 min-w-[900px]">
       <TableHeader
         searchQuery={searchQuery}
         setSearchQuery={handleSearchQueryChange}
@@ -216,17 +227,21 @@ export default function CountryTable() {
       />
 
       <div className="flex-1 overflow-auto min-w-[900px]">
-        <table className="min-w-full border border-gray-700 text-sm text-gray-100 border-separate">
-          <thead className="bg-gray-900 sticky top-0 z-20">
-            <tr>
-              <TableColumnsHeader
-                extraColumns={extraColumns}
-                extraFields={EXTRA_FIELDS}
-              />
-            </tr>
-          </thead>
-          <tbody>{tableRows}</tbody>
-        </table>
+        {isLoading ? (
+          <SkeletonTableBody />
+        ) : (
+          <table className="min-w-full border border-gray-700 text-sm text-gray-100 border-separate">
+            <thead className="bg-gray-900 sticky top-0 z-20">
+              <tr>
+                <TableColumnsHeader
+                  extraColumns={extraColumns}
+                  extraFields={EXTRA_FIELDS}
+                />
+              </tr>
+            </thead>
+            <tbody>{tableRows}</tbody>
+          </table>
+        )}
         <div ref={loaderReference} className="h-10"></div>
       </div>
 
