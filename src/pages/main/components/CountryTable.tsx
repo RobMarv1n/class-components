@@ -21,10 +21,16 @@ export default function CountryTable() {
   const [sortOption, setSortOption] = useState<SortOption>('name-asc');
   const [extraColumns, setExtraColumns] = useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [highlightedCells, setHighlightedCells] = useState<
+    Record<string, boolean>
+  >({});
 
   const [currentPage, setCurrentPage] = useState(1);
   const loaderReference = useRef<HTMLDivElement>(null);
   const itemsPerPage = 50;
+  const prevDataRef = useRef<Record<string, any>>({});
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const prevYearRef = useRef<number | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -99,6 +105,41 @@ export default function CountryTable() {
       }
     };
   }, [sortedCountries]);
+
+  useEffect(() => {
+    if (prevYearRef.current === null) {
+      prevYearRef.current = selectedYear;
+      return;
+    }
+
+    if (prevYearRef.current === selectedYear) return;
+
+    const newHighlights: Record<string, boolean> = {};
+    visibleCountries.forEach((country) => {
+      const entry = country.data.find((d) => d.year === selectedYear);
+      if (!entry) return;
+      ['population', 'co2', 'co2_per_capita', ...extraColumns].forEach(
+        (field) => {
+          const key = `${country.country}-${field}`;
+          if (prevDataRef.current[key] !== entry[field as keyof typeof entry]) {
+            newHighlights[key] = true;
+          }
+          prevDataRef.current[key] = entry[field as keyof typeof entry];
+        }
+      );
+    });
+
+    if (Object.keys(newHighlights).length > 0) {
+      setHighlightedCells(newHighlights);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => {
+        setHighlightedCells({});
+        timeoutRef.current = null;
+      }, 1000);
+    }
+
+    prevYearRef.current = selectedYear;
+  }, [selectedYear, visibleCountries, extraColumns]);
 
   const toggleExtraColumn = (fieldKey: string) => {
     setExtraColumns((previousColumns) =>
@@ -203,19 +244,41 @@ export default function CountryTable() {
                       <td className="px-3 py-2 border border-gray-700">
                         {entry.year}
                       </td>
-                      <td className="px-3 py-2 border border-gray-700 truncate">
+                      <td
+                        className={`px-3 py-2 border border-gray-700 truncate transition-colors duration-500 ${
+                          highlightedCells[`${country.country}-population`]
+                            ? 'bg-blue-500'
+                            : ''
+                        }`}
+                      >
                         {entry.population ?? 'N/A'}
                       </td>
-                      <td className="px-3 py-2 border border-gray-700 truncate">
+                      <td
+                        className={`px-3 py-2 border border-gray-700 truncate transition-colors duration-500 ${
+                          highlightedCells[`${country.country}-co2`]
+                            ? 'bg-blue-500'
+                            : ''
+                        }`}
+                      >
                         {entry.co2 ?? 'N/A'}
                       </td>
-                      <td className="px-3 py-2 border border-gray-700 truncate">
+                      <td
+                        className={`px-3 py-2 border border-gray-700 truncate transition-colors duration-500 ${
+                          highlightedCells[`${country.country}-co2_per_capita`]
+                            ? 'bg-blue-500'
+                            : ''
+                        }`}
+                      >
                         {entry.co2_per_capita ?? 'N/A'}
                       </td>
                       {extraColumns.map((fieldKey) => (
                         <td
                           key={fieldKey}
-                          className="px-3 py-2 border border-gray-700 truncate"
+                          className={`px-3 py-2 border border-gray-700 truncate transition-colors duration-500 ${
+                            highlightedCells[`${country.country}-${fieldKey}`]
+                              ? 'bg-blue-500'
+                              : ''
+                          }`}
                         >
                           {entry[fieldKey as keyof typeof entry] ?? 'N/A'}
                         </td>
