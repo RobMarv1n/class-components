@@ -23,7 +23,7 @@ const TableHeader = React.memo(function TableHeader({
       <select
         value={sortOption}
         onChange={(event) => setSortOption(event.target.value as SortOption)}
-        className="p-2 rounded-md bg-gray-800 text-gray-100 border border-gray-600"
+        className="p-2 rounded-md bg-gray-800 text-gray-100 border border-gray-600 cursor-pointer"
       >
         <option value="name-asc">Name ↑</option>
         <option value="name-desc">Name ↓</option>
@@ -33,7 +33,7 @@ const TableHeader = React.memo(function TableHeader({
       <select
         value={selectedYear}
         onChange={(event) => setSelectedYear(Number(event.target.value))}
-        className="p-2 rounded-md bg-gray-800 text-gray-100 border border-gray-600"
+        className="p-2 rounded-md bg-gray-800 text-gray-100 border border-gray-600 cursor-pointer"
       >
         {Array.from({ length: YEARS_COUNT }, (_, i) => MIN_DATA_YEAR + i).map(
           (year) => (
