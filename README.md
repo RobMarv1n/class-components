@@ -14,8 +14,6 @@ Initial profiling was performed using **React DevTools Profiler**.
 
 ## Before optimization
 
-<!-- SORTING -->
-
 ### 1. Sorting a column: dsfsdf
 
 - **Commit Duration: 1.5s**
@@ -31,8 +29,6 @@ Initial profiling was performed using **React DevTools Profiler**.
 #### Ranked Chart for sorting
 
 ![Profiler Ranked Chart](./docs/img/rc-for-sorting.png)
-
-<!-- SEARCHING -->
 
 ### 2. Searching for a country:
 
@@ -50,8 +46,6 @@ Initial profiling was performed using **React DevTools Profiler**.
 
 ![Profiler Ranked Chart](./docs/img/rc-for-searching.png)
 
-<!-- SELECTING YEAR  -->
-
 ### - Selecting a year:
 
 - **Commit Duration: 2.7s**
@@ -67,8 +61,6 @@ Initial profiling was performed using **React DevTools Profiler**.
 #### Ranked Chart for year
 
 ![Profiler Ranked Chart](./docs/img/rc-for-change-year.png)
-
-<!-- ADDING REMOVING COLUMNS -->
 
 ### - Adding/removing columns:
 
@@ -86,11 +78,7 @@ Initial profiling was performed using **React DevTools Profiler**.
 
 ![Profiler Ranked Chart](./docs/img/rc-for-adding-removing-columns.png)
 
-<!-- AFTER OPTIMIZATION -->
-
 ## After optimization
-
-<!-- SORTING -->
 
 ### - Sorting a column:
 
@@ -108,8 +96,6 @@ Initial profiling was performed using **React DevTools Profiler**.
 
 ![Profiler Ranked Chart](./docs/img/AFTER-OPT-rc-for-sorting.png)
 
-<!-- SEARCHING -->
-
 ### - Searching for a country:
 
 - **Commit Duration: 1.3s**
@@ -125,8 +111,6 @@ Initial profiling was performed using **React DevTools Profiler**.
 #### Ranked Chart for search
 
 ![Profiler Ranked Chart](./docs/img/AFTER-OPT-rc-for-searching.png)
-
-<!-- SELECTING YEAR  -->
 
 ### - Selecting a year:
 
@@ -144,8 +128,6 @@ Initial profiling was performed using **React DevTools Profiler**.
 
 ![Profiler Ranked Chart](./docs/img/AFTER-OPT-rc-for-change-year.png)
 
-<!-- ADDING REMOVING COLUMNS -->
-
 ### - Adding/removing columns:
 
 - **Commit Duration: 0.7s**
@@ -160,7 +142,6 @@ Initial profiling was performed using **React DevTools Profiler**.
 
 #### Ranked Chart for columns
 
-![alt text](image-1.png)
 ![Profiler Ranked Chart](./docs/img/AFTER-OPT-rc-for-adding-removing-columns.png)
 
 ---
